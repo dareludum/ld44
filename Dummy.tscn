@@ -1,4 +1,6 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://fonts/default.tres" type="DynamicFont" id=1]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -8,4 +10,13 @@ anchor_bottom = 1.0
 margin_right = 12.0
 margin_bottom = 20.0
 text = "Hello, world!"
+
+[node name="Kajetan" type="Label" parent="."]
+margin_left = 100.0
+margin_top = 40.0
+margin_right = 324.0
+margin_bottom = 74.0
+hint_tooltip = "This should show up on mouseover!"
+custom_fonts/font = ExtResource( 1 )
+text = "Kajetan is the best!"
 
