@@ -19,6 +19,11 @@ config/name="Ludum Dare 44"
 run/main_scene="res://Dummy.tscn"
 config/icon="res://icon.png"
 
+[debug]
+
+settings/stdout/print_fps=true
+gdscript/warnings/treat_warnings_as_errors=true
+
 [rendering]
 
 quality/driver/driver_name="GLES2"
