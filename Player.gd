@@ -4,6 +4,9 @@ const PLAYER_SPEED: float = 100.0
 
 var velocity: Vector2 = Vector2.ZERO
 
+func get_position():
+	return self.position
+
 func _ready():
 	pass # Replace with function body.
 
