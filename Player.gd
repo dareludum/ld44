@@ -11,7 +11,6 @@ var isSwingingBlade: bool = false
 var canSwingBlade: bool = true
 var bladeResetTimer: Timer = Timer.new()
 
-var velocity: Vector2 = Vector2.ZERO
 var total_health: float = PLAYER_BASE_HEALTH
 var health: float = PLAYER_BASE_HEALTH
 var evol: int = PLAYER_BASE_EVOL
