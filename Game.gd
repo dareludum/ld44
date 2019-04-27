@@ -10,10 +10,10 @@ func _ready():
 
 func _on_timer_timeout():
 	var enemy = preload("res://scenes/enemy.tscn").instance()
+	enemy.set_target($Player)
 	self.add_child(enemy)
 	$EnemySpawnRect/SpawnLocation.offset = randi()
 	enemy.position = $EnemySpawnRect/SpawnLocation.position
-	enemy.look_at($Player.position)
 
 func _update_ui():
 	$lbl_hp.text = "HP: " + str($Player.get_hp())
