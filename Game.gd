@@ -11,9 +11,13 @@ func _ready():
 func _on_timer_timeout():
 	var enemy = preload("res://scenes/enemy.tscn").instance()
 	self.add_child(enemy)
-	$EnemySpawnRect/SpawnLocation.offset = randi()	
+	$EnemySpawnRect/SpawnLocation.offset = randi()
 	enemy.position = $EnemySpawnRect/SpawnLocation.position
 	enemy.look_at($Player.position)
 
+func _update_ui():
+	$lbl_health.text = "HP: " + str($Player.get_health())
+	$lbl_evol.text = "EP:" + str($Player.get_evol())
+
 func _process(_delta):
-	pass
+	_update_ui()
