@@ -7,6 +7,8 @@ const PLAYER_BASE_HP: float = 100.0
 const PLAYER_BASE_EP: int = 0
 
 var velocity: Vector2 = Vector2.ZERO
+
+onready var blade = $BladeHolder/Blade
 var isSwingingBlade: bool = false
 var canSwingBlade: bool = true
 var bladeResetTimer: Timer = Timer.new()
@@ -41,6 +43,9 @@ func _process(delta):
 		if $BladeHolder.rotation < -1.25 * PI:
 			self.isSwingingBlade = false
 			self.bladeResetTimer.start(BLADE_SWING_COOLDOWN)
+			blade.disengage()
+			for enemy in blade.enemies_hit():
+				enemy.queue_free()
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -65,6 +70,7 @@ func _swing_blade():
 		return
 	self.isSwingingBlade = true
 	self.canSwingBlade = false
+	blade.engage()
 
 func _on_blade_cooldown_timer():
 	$BladeHolder.rotation = 0.0

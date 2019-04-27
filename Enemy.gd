@@ -12,8 +12,12 @@ func _ready():
 
 func _process(delta):
 	var speed = Vector2(1, 0) * delta * ENEMY_SPEED
-	self.look_at(_player.position)
+
+	# follow the player
+	# self.look_at(_player.position)
 	self.position += speed.rotated(self.rotation)
-	if abs((self.position - _player.position).length()) < 10:
-		_player.hp -= 1
-		self.queue_free()
+
+	# damage the player and disappear
+	# if abs((self.position - _player.position).length()) < 10:
+	#	_player.hp -= 1
+	#	self.queue_free()
