@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/ui_labels_font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://images/field.png" type="Texture" id=4]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -42,4 +43,9 @@ margin_right = 1023.0
 margin_bottom = 34.0
 custom_fonts/font = ExtResource( 3 )
 text = "EP:10000"
+
+[node name="Field" type="Sprite" parent="."]
+position = Vector2( 510, 300 )
+z_index = -1
+texture = ExtResource( 4 )
 
