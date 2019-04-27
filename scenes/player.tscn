@@ -15,6 +15,7 @@ scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 2 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 scale = Vector2( 1.5, 1.5 )
@@ -25,5 +26,4 @@ shape = SubResource( 1 )
 [node name="Blade" parent="BladeHolder" instance=ExtResource( 3 )]
 position = Vector2( -12, 12 )
 rotation = 2.35619
-scale = Vector2( 1, 1 )
 

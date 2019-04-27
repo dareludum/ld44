@@ -57,6 +57,12 @@ go_down={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="player"
+2d_physics/layer_2="blade"
+2d_physics/layer_3="enemies"
+
 [rendering]
 
 quality/driver/driver_name="GLES2"
