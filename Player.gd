@@ -3,29 +3,29 @@ extends Node2D
 const PLAYER_SPEED: float = 100.0
 const BLADE_SWING_ANGULAR_SPEED: float = 4 * PI
 const BLADE_SWING_COOLDOWN: float = 0.15
-const PLAYER_BASE_HEALTH: float = 100.0
-const PLAYER_BASE_EVOL: int = 0
+const PLAYER_BASE_HP: float = 100.0
+const PLAYER_BASE_EP: int = 0
 
 var velocity: Vector2 = Vector2.ZERO
 var isSwingingBlade: bool = false
 var canSwingBlade: bool = true
 var bladeResetTimer: Timer = Timer.new()
 
-var total_health: float = PLAYER_BASE_HEALTH
-var health: float = PLAYER_BASE_HEALTH
-var evol: int = PLAYER_BASE_EVOL
+var total_hp: float = PLAYER_BASE_HP
+var hp: float = PLAYER_BASE_HP
+var ep: int = PLAYER_BASE_EP
 
 func get_position():
 	return self.position
 
-func get_health():
-	return self.health
+func get_hp():
+	return self.hp
 
-func get_max_health():
-	return self.total_health
+func get_max_hp():
+	return self.total_hp
 
-func get_evol():
-	return self.evol
+func get_ep():
+	return self.ep
 
 func _ready():
 	self.bladeResetTimer.autostart = false

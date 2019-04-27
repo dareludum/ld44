@@ -16,8 +16,8 @@ func _on_timer_timeout():
 	enemy.look_at($Player.position)
 
 func _update_ui():
-	$lbl_health.text = "HP: " + str($Player.get_health())
-	$lbl_evol.text = "EP:" + str($Player.get_evol())
+	$lbl_health.text = "HP: " + str($Player.get_hp())
+	$lbl_evol.text = "EP:" + str($Player.get_ep())
 
 func _process(_delta):
 	_update_ui()
