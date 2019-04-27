@@ -1,16 +1,20 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://images/eight-ball.png" type="Texture" id=1]
+[ext_resource path="res://images/blade.png" type="Texture" id=1]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 37.5668, 4.15894 )
+[sub_resource type="ConvexPolygonShape2D" id=1]
+points = PoolVector2Array( 0.35, -13.22, 19.24, -3.34, 32.97, 19.26, -40.31, 8.93, -28.04, -13.19, -22.35, -9.3 )
 
 [node name="Blade" type="Node2D"]
+position = Vector2( -3.68051, -3.29309 )
+scale = Vector2( 0.764876, 0.73336 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 37.5879, 0.104675 )
-scale = Vector2( 0.315599, 0.0336053 )
+position = Vector2( -24.3259, -12.4729 )
+rotation = -0.643171
+scale = Vector2( 0.407033, 0.484639 )
 texture = ExtResource( 1 )
+offset = Vector2( 78.7832, 85.0679 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 collision_layer = 2
@@ -18,5 +22,6 @@ collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 position = Vector2( 37.866, 0.0600948 )
+rotation = 0.730031
 shape = SubResource( 1 )
 
