@@ -36,7 +36,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_constants/separation = 60
 
-[node name="TextureButton" type="TextureButton" parent="Level 1"]
+[node name="Node0" type="TextureButton" parent="Level 1"]
 margin_right = 100.0
 margin_bottom = 100.0
 size_flags_horizontal = 2
@@ -44,7 +44,7 @@ size_flags_vertical = 4
 texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 2 )
 
-[node name="TextureButton2" type="TextureButton" parent="Level 1"]
+[node name="Node1" type="TextureButton" parent="Level 1"]
 margin_left = 160.0
 margin_right = 260.0
 margin_bottom = 100.0
@@ -61,7 +61,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_constants/separation = 60
 
-[node name="TextureButton" type="TextureButton" parent="Level 2"]
+[node name="Node0" type="TextureButton" parent="Level 2"]
 margin_right = 100.0
 margin_bottom = 100.0
 size_flags_horizontal = 2
@@ -69,7 +69,7 @@ size_flags_vertical = 4
 texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 2 )
 
-[node name="TextureButton2" type="TextureButton" parent="Level 2"]
+[node name="Node1" type="TextureButton" parent="Level 2"]
 margin_left = 160.0
 margin_right = 260.0
 margin_bottom = 100.0
@@ -78,7 +78,7 @@ size_flags_vertical = 4
 texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 2 )
 
-[node name="TextureButton3" type="TextureButton" parent="Level 2"]
+[node name="Node2" type="TextureButton" parent="Level 2"]
 margin_left = 320.0
 margin_right = 420.0
 margin_bottom = 100.0
@@ -87,7 +87,7 @@ size_flags_vertical = 4
 texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 2 )
 
-[node name="TextureButton4" type="TextureButton" parent="Level 2"]
+[node name="Node3" type="TextureButton" parent="Level 2"]
 margin_left = 480.0
 margin_right = 580.0
 margin_bottom = 100.0

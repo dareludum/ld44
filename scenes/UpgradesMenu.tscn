@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://UpgradesMenu.gd" type="Script" id=1]
-[ext_resource path="res://UpgradeButton.gd" type="Script" id=2]
+[ext_resource path="res://images/slots.png" type="Texture" id=2]
+[ext_resource path="res://images/upgrade_button.png" type="Texture" id=3]
+[ext_resource path="res://images/upgrade_button_pressed.png" type="Texture" id=4]
+[ext_resource path="res://SlotButton.gd" type="Script" id=5]
+[ext_resource path="res://images/field.png" type="Texture" id=6]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -17,6 +21,7 @@ margin_right = 1024.0
 margin_bottom = 600.0
 
 [node name="TopUI" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+editor/display_folded = true
 margin_right = 1024.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
@@ -43,49 +48,73 @@ align = 1
 margin_top = 54.0
 margin_right = 1024.0
 margin_bottom = 546.0
+rect_min_size = Vector2( 1024, 492 )
 size_flags_vertical = 3
 custom_constants/separation = 100
 
-[node name="Slots" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MidUI"]
+[node name="Slots" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MidUI"]
+margin_top = 204.0
+margin_right = 224.0
+margin_bottom = 288.0
+size_flags_horizontal = 7
+size_flags_vertical = 4
+
+[node name="Sprite" type="Sprite" parent="MarginContainer/VBoxContainer/MidUI/Slots"]
+position = Vector2( 111.469, 57.4926 )
+texture = ExtResource( 2 )
+
+[node name="Slots0" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MidUI/Slots"]
 editor/display_folded = true
-margin_right = 230.0
-margin_bottom = 492.0
+margin_left = 92.0
+margin_right = 132.0
+margin_bottom = 40.0
+size_flags_horizontal = 4
+
+[node name="WeaponButton" type="TextureButton" parent="MarginContainer/VBoxContainer/MidUI/Slots/Slots0"]
+margin_right = 40.0
+margin_bottom = 40.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+script = ExtResource( 5 )
+
+[node name="Slots1" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MidUI/Slots"]
+editor/display_folded = true
+margin_left = 52.0
+margin_top = 44.0
+margin_right = 172.0
+margin_bottom = 84.0
 size_flags_horizontal = 4
 custom_constants/separation = 40
 
-[node name="WeaponButton" type="Button" parent="MarginContainer/VBoxContainer/MidUI/Slots"]
-margin_top = 221.0
-margin_right = 50.0
-margin_bottom = 271.0
-rect_min_size = Vector2( 50, 50 )
+[node name="SurvivalButton" type="TextureButton" parent="MarginContainer/VBoxContainer/MidUI/Slots/Slots1"]
+margin_right = 40.0
+margin_bottom = 40.0
 size_flags_horizontal = 0
 size_flags_vertical = 4
-script = ExtResource( 2 )
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+script = ExtResource( 5 )
 
-[node name="SurvivalButton" type="Button" parent="MarginContainer/VBoxContainer/MidUI/Slots"]
-margin_left = 90.0
-margin_top = 221.0
-margin_right = 140.0
-margin_bottom = 271.0
-rect_min_size = Vector2( 50, 50 )
+[node name="AbilityButton" type="TextureButton" parent="MarginContainer/VBoxContainer/MidUI/Slots/Slots1"]
+margin_left = 80.0
+margin_right = 120.0
+margin_bottom = 40.0
 size_flags_horizontal = 0
 size_flags_vertical = 4
-script = ExtResource( 2 )
-
-[node name="AbilityButton" type="Button" parent="MarginContainer/VBoxContainer/MidUI/Slots"]
-margin_left = 180.0
-margin_top = 221.0
-margin_right = 230.0
-margin_bottom = 271.0
-rect_min_size = Vector2( 50, 50 )
-size_flags_horizontal = 0
-size_flags_vertical = 4
-script = ExtResource( 2 )
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+script = ExtResource( 5 )
 
 [node name="Tree" type="Control" parent="MarginContainer/VBoxContainer/MidUI"]
-margin_left = 330.0
+margin_left = 324.0
 margin_right = 1024.0
 margin_bottom = 492.0
+rect_min_size = Vector2( 700, 492 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -119,4 +148,9 @@ margin_top = 557.0
 margin_right = 1007.0
 margin_bottom = 585.0
 text = "Play"
+
+[node name="Field" type="Sprite" parent="."]
+position = Vector2( 510, 300 )
+z_index = -1
+texture = ExtResource( 6 )
 
