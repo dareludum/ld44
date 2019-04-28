@@ -6,6 +6,10 @@ enum Upgrade {
 	SLOT_ULTIMATE,
 
 	W0_BIG,
+	W00_BIG_SPEED_UP,
+	W000_BIG_360,
+	W01_BIG_INVINCIBLE,
+	W010_BIG_PASSIVE_PROJECTILE_DEFENSE,
 	W1_DUAL,
 	W10_DUAL_CAN_MOVE,
 	W100_DUAL_FAST,
@@ -81,12 +85,15 @@ func get_sell_price(upgrade):
 func _ready():
 	# Test upgrades
 	self.player_upgrades[Upgrade.SLOT_WEAPON] = true
-	self.player_upgrades[Upgrade.W1_DUAL] = true
+	self.player_upgrades[Upgrade.W0_BIG] = true
+	self.player_upgrades[Upgrade.W00_BIG_SPEED_UP] = true
+	self.player_upgrades[Upgrade.W000_BIG_360] = true
+	# self.player_upgrades[Upgrade.W1_DUAL] = true
 	# self.player_upgrades[Upgrade.W10_DUAL_CAN_MOVE] = true
 	# self.player_upgrades[Upgrade.W100_DUAL_FAST] = true
 	# self.player_upgrades[Upgrade.W101_DUAL_ROTATING] = true
-	self.player_upgrades[Upgrade.W11_DUAL_KILL_PROJECTILES] = true
-	self.player_upgrades[Upgrade.W110_DUAL_360] = true
+	# self.player_upgrades[Upgrade.W11_DUAL_KILL_PROJECTILES] = true
+	# self.player_upgrades[Upgrade.W110_DUAL_360] = true
 	start_new_game()
 
 func start_new_game():

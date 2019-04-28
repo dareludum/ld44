@@ -58,3 +58,9 @@ func on_area_entered(area: Area2D):
 	if area is Beam and self.can_kill_projectiles:
 		area.hide()
 		area.queue_free()
+
+func update_multiplier(value: float):
+	# value is 1.0 to 2.0
+	var non_red_color = clamp(2 - value, 0.0, 1.0)
+	$Sprite.modulate.g = non_red_color
+	$Sprite.modulate.b = non_red_color

@@ -8,6 +8,9 @@ var Enemy = load("res://Enemy.gd")
 var Upgrade = load("res://Main.gd").Upgrade
 
 const PLAYER_SPEED: float = 150.0
+const BLADE_SWING_SPEED_MULTIPLIER_DELTA: float = 0.1
+const BLADE_SWING_SPEED_MULTIPLIER_DECAY: float = 0.33
+const BLADE_SWING_SPEED_MULTIPLIER_DECAY_COOLDOWN: float = 2.0
 
 var velocity: Vector2 = Vector2.ZERO
 
@@ -17,6 +20,10 @@ onready var SFXEngine = Session.get_node("SoundEngine")
 var blade: Blade
 var blade_left: Blade = null
 var blade_swing_start_rotation: float = 0.0
+var blade_swing_speed_multiplier_delta: float = 0.0
+var blade_swing_speed_multiplier: float = 1.0
+var blade_swing_speed_decay_cooldown_timer: Timer = Timer.new()
+var blade_swing_speed_is_decaying: bool = true
 var is_swinging_blade: bool = false
 var can_swing_blade: bool = true
 var blade_reset_timer: Timer = Timer.new()
@@ -44,6 +51,11 @@ func _ready():
 	self.hp = self.max_hp
 	_apply_upgrades()
 
+	self.blade_swing_speed_decay_cooldown_timer.autostart = false
+	self.blade_swing_speed_decay_cooldown_timer.one_shot = true
+	assert(OK == self.blade_swing_speed_decay_cooldown_timer.connect("timeout", self, "_on_blade_swing_speed_decay_cooldown_timer"))
+	self.add_child(self.blade_swing_speed_decay_cooldown_timer)
+
 	self.blade_reset_timer.autostart = false
 	self.blade_reset_timer.one_shot = true
 	assert(OK == self.blade_reset_timer.connect("timeout", self, "_on_blade_cooldown_timer"))
@@ -59,6 +71,12 @@ func _apply_upgrades():
 		unneeded_blades.append($BladeHolder/BladeRotating)
 		unneeded_blades.append($LeftBladeHolder/BladeLeft)
 		self.blade = $BladeHolder/BladeBig
+		if upgrades.has(Upgrade.W00_BIG_SPEED_UP):
+			self.blade_swing_speed_multiplier_delta = BLADE_SWING_SPEED_MULTIPLIER_DELTA
+			if upgrades.has(Upgrade.W000_BIG_360):
+				self.blade.swing_range = 2 * PI
+		elif upgrades.has(Upgrade.W01_BIG_INVINCIBLE):
+			pass
 	elif upgrades.has(Upgrade.W1_DUAL):
 		unneeded_blades.append($BladeHolder/BladeBig)
 		unneeded_blades.append($BladeHolder/BladeRotating)
@@ -96,16 +114,25 @@ func _process(delta):
 	if (not is_stunned()) and (not self.is_swinging_blade or self.blade.can_move_while_swinging):
 		self.position += velocity * PLAYER_SPEED * delta
 
+	if self.blade_swing_speed_is_decaying:
+		self.blade_swing_speed_multiplier = clamp(self.blade_swing_speed_multiplier - BLADE_SWING_SPEED_MULTIPLIER_DECAY * delta, 1.0, 2.0)
+
 	if self.is_swinging_blade:
-		$LeftBladeHolder.rotation += self.blade.swing_angular_speed * delta
-		$BladeHolder.rotation -= self.blade.swing_angular_speed * delta
+		var distance = self.blade.swing_angular_speed * self.blade_swing_speed_multiplier * delta
+		$LeftBladeHolder.rotation += distance
+		$BladeHolder.rotation -= distance
 		if $BladeHolder.rotation < self.blade_swing_start_rotation - self.blade.swing_range:
 			on_blade_swing_end()
+
+	self.blade.update_multiplier(self.blade_swing_speed_multiplier)
 
 func _on_blade_cooldown_timer():
 	$BladeHolder.rotation = $HeadHolder.rotation
 	$LeftBladeHolder.rotation = $HeadHolder.rotation
 	self.can_swing_blade = true
+
+func _on_blade_swing_speed_decay_cooldown_timer():
+	self.blade_swing_speed_is_decaying = true
 
 func _swing_blade():
 	if not self.can_swing_blade:
@@ -133,6 +160,10 @@ func on_blade_swing_end():
 			enemies_hit[enemy] = enemies_hit_left[enemy]
 	var n = len(enemies_hit)
 	if n > 0:
+		self.blade_swing_speed_multiplier = clamp(self.blade_swing_speed_multiplier + n * self.blade_swing_speed_multiplier_delta, 1.0, 2.0)
+		self.blade_swing_speed_is_decaying = false
+		self.blade_swing_speed_decay_cooldown_timer.stop()
+		self.blade_swing_speed_decay_cooldown_timer.start(BLADE_SWING_SPEED_MULTIPLIER_DECAY_COOLDOWN)
 		emit_signal("ep_add", n * n)   # basic combo
 
 func stun(duration_ms):
