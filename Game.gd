@@ -4,6 +4,11 @@ onready var Session = get_tree().root.get_node("Session")
 
 var timer: Timer = Timer.new()
 
+const enemy_scenes = [
+	preload("res://scenes/EnemyStunner.tscn"),
+	preload("res://scenes/EnemyZombie.tscn"),
+]
+
 func _ready():
 	timer.wait_time = 1
 	assert(OK == timer.connect("timeout", self, "_on_timer_timeout"))
@@ -19,7 +24,7 @@ func _on_player_died():
 	# TODO: fade out
 
 func _on_timer_timeout():
-	var enemy = preload("res://scenes/enemy.tscn").instance()
+	var enemy = enemy_scenes[randi() % enemy_scenes.size()].instance()
 	enemy.set_target($Player)
 	self.add_child(enemy)
 	$EnemySpawnRect/SpawnLocation.offset = randi()

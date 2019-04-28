@@ -1,10 +1,11 @@
 extends Node2D
 
-const ENEMY_SPEED: float = 200.0
-
 const Blade = preload("res://Blade.gd")
 
 var _player
+
+# one of the specs in res://enemies/, use it for anything specific to a particular enemy type
+onready var spec = $Spec
 
 func set_target(player):
 	_player = player
@@ -19,7 +20,7 @@ func on_area_entered(area: Area2D):
 		self.queue_free()
 
 func _process(delta):
-	var speed = Vector2(1, 0) * delta * ENEMY_SPEED
+	var speed = Vector2(1, 0) * delta * spec.ENEMY_SPEED
 
 	# follow the player
 	# self.look_at(_player.position)
