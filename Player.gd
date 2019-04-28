@@ -3,19 +3,25 @@ extends Node2D
 signal died
 signal ep_add
 
+const Blade = preload("res://Blade.gd")
 const Enemy = preload("res://Enemy.gd")
+var Upgrade = load("res://Main.gd").Upgrade
 
 const PLAYER_SPEED: float = 150.0
 const BLADE_SWING_ANGULAR_SPEED: float = 6 * PI
+const BLADE_BIG_SWING_ANGULAR_SPEED: float = 4 * PI
 const BLADE_SWING_RANGE: float = 1.25 * PI
 const BLADE_SWING_COOLDOWN: float = 0.15
+const BLADE_BIG_SWING_COOLDOWN: float = 0.25
 
 var velocity: Vector2 = Vector2.ZERO
 
 onready var Session = get_tree().root.get_node("Session")
 onready var SFXEngine = Session.get_node("SoundEngine")
 
-onready var blade = $BladeHolder/Blade
+var blade: Blade
+var blade_swing_angular_speed: float
+var blade_swing_cooldown: float
 var blade_swing_start_rotation: float = 0.0
 var is_swinging_blade: bool = false
 var can_swing_blade: bool = true
@@ -36,6 +42,19 @@ func get_max_hp():
 func _ready():
 	self.max_hp = Session.player_max_hp
 	self.hp = self.max_hp
+	var upgrades: Dictionary = Session.get_player_upgrades()
+	if upgrades.has(Upgrade.WEAPON_0):
+		$BladeHolder/Blade.hide()
+		$BladeHolder/Blade.queue_free()
+		self.blade = $BladeHolder/BladeBig
+		self.blade_swing_angular_speed = BLADE_BIG_SWING_ANGULAR_SPEED
+		self.blade_swing_cooldown = BLADE_BIG_SWING_COOLDOWN
+	else:
+		$BladeHolder/BladeBig.hide()
+		$BladeHolder/BladeBig.queue_free()
+		self.blade = $BladeHolder/Blade
+		self.blade_swing_angular_speed = BLADE_SWING_ANGULAR_SPEED
+		self.blade_swing_cooldown = BLADE_SWING_COOLDOWN
 
 	self.blade_reset_timer.autostart = false
 	self.blade_reset_timer.one_shot = true
@@ -54,7 +73,7 @@ func _on_collision(area: Area2D):
 func _process(delta):
 	self.position += velocity * PLAYER_SPEED * delta
 	if self.is_swinging_blade:
-		$BladeHolder.rotation -= BLADE_SWING_ANGULAR_SPEED * delta
+		$BladeHolder.rotation -= self.blade_swing_angular_speed * delta
 		if $BladeHolder.rotation < self.blade_swing_start_rotation - BLADE_SWING_RANGE:
 			on_blade_swing_end()
 
@@ -73,7 +92,7 @@ func _swing_blade():
 
 func on_blade_swing_end():
 	self.is_swinging_blade = false
-	self.blade_reset_timer.start(BLADE_SWING_COOLDOWN)
+	self.blade_reset_timer.start(self.blade_swing_cooldown)
 	blade.disengage()
 
 	# gain evolution points for killing enemies

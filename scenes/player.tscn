@@ -44,3 +44,8 @@ position = Vector2( -7.92186, 9.42434 )
 rotation = 2.01698
 scale = Vector2( 1, 1 )
 
+[node name="BladeBig" parent="BladeHolder" instance=ExtResource( 3 )]
+position = Vector2( -7.922, 9.424 )
+rotation = 2.0176
+scale = Vector2( 1.4, 1.15 )
+
