@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
@@ -14,6 +14,9 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 615, 400 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 485, 280 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -66,9 +69,15 @@ position = Vector2( 510, 200 )
 z_index = 1000
 texture = ExtResource( 6 )
 
-[node name="PlayArea" type="Area2D" parent="."]
+[node name="SpawnArea" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnArea"]
 position = Vector2( 512, 300 )
 shape = SubResource( 2 )
+
+[node name="FairPlayArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FairPlayArea"]
+position = Vector2( 512, 300 )
+shape = SubResource( 3 )
 

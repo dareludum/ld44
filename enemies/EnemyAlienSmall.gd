@@ -33,7 +33,7 @@ func process_movement(this, player, delta):
 func process_shooting(this, player, _delta):
 	var now = OS.get_ticks_msec()
 	
-	if now < next_shot_after:
+	if now < next_shot_after or not this.in_play_area:
 		return
 
 	var game = this.get_node("..")

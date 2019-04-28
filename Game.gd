@@ -59,7 +59,7 @@ func _on_ep_add(value: int):
 func _on_spawn_timer_timeout():
 	var enemy = enemy_scenes[randi() % enemy_scenes.size()].instance()
 	self.add_child(enemy)
-	enemy.init($Player, $PlayArea)
+	enemy.init($Player, $SpawnArea, $FairPlayArea)
 	$EnemySpawnRect/SpawnLocation.offset = randi()
 	enemy.position = $EnemySpawnRect/SpawnLocation.position
 	enemy.look_at($Player.position)
