@@ -30,11 +30,14 @@ func on_area_exited(area: Area2D):
 		# we left the play area / the play area exited us
 		self.queue_free()
 
-func _process(delta):
-	if not is_instance_valid(player):
-		return
+func hit_player(player):
+	if is_instance_valid(spec):
+		spec.hit_player(self, player)
 
-	spec.enemy_process(self, player, delta)
+func _process(delta):
+	if is_instance_valid(spec) and is_instance_valid(player):
+		spec.enemy_process(self, player, delta)
+
 	# follow the player
 	# self.look_at(_player.position)
 

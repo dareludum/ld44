@@ -4,7 +4,7 @@ signal died
 signal ep_add
 
 const Blade = preload("res://Blade.gd")
-const Enemy = preload("res://Enemy.gd")
+var Enemy = load("res://Enemy.gd")
 var Upgrade = load("res://Main.gd").Upgrade
 
 const PLAYER_SPEED: float = 150.0
@@ -20,15 +20,21 @@ var blade_swing_start_rotation: float = 0.0
 var is_swinging_blade: bool = false
 var can_swing_blade: bool = true
 var blade_reset_timer: Timer = Timer.new()
+var stunned_until_ms: int = 0
 
-var max_hp: int
-var hp: int
+var max_hp: int  # 2 HP == 1 heart
+var hp: int setget set_hp, get_hp
 
 func get_position():
 	return self.position
 
+func set_hp(new):
+	hp = int(max(0, new))
+	if hp == 0:
+		emit_signal("died")
+
 func get_hp():
-	return self.hp
+	return hp
 
 func get_max_hp():
 	return self.max_hp
@@ -43,7 +49,7 @@ func _ready():
 	assert(OK == self.blade_reset_timer.connect("timeout", self, "_on_blade_cooldown_timer"))
 	self.add_child(self.blade_reset_timer)
 
-	assert(OK == $HeadHolder/Head.connect("area_entered", self, "_on_collision"))
+	assert(OK == $HeadHolder/Head.connect("area_entered", self, "on_area_entered"))
 
 func _apply_upgrades():
 	var upgrades: Dictionary = Session.get_player_upgrades()
@@ -82,16 +88,15 @@ func _apply_upgrades():
 		unneeded.hide()
 		unneeded.queue_free()
 
-func _on_collision(area: Area2D):
+func on_area_entered(area: Area2D):
 	var node = area.get_node("..")
 	if node is Enemy:
-		self.hp = int(max(0, self.hp - 1))
-		if self.hp == 0:
-			emit_signal("died")
+		node.hit_player(self)
 
 func _process(delta):
-	if not self.is_swinging_blade or self.blade.can_move_while_swinging:
+	if (not is_stunned()) and (not self.is_swinging_blade or self.blade.can_move_while_swinging):
 		self.position += velocity * PLAYER_SPEED * delta
+
 	if self.is_swinging_blade:
 		$LeftBladeHolder.rotation += self.blade.swing_angular_speed * delta
 		$BladeHolder.rotation -= self.blade.swing_angular_speed * delta
@@ -131,7 +136,17 @@ func on_blade_swing_end():
 	if n > 0:
 		emit_signal("ep_add", n * n)   # basic combo
 
+func stun(duration_ms):
+	# stun duration does not add up, but it's not clipped either (3s stun followed up by 1s stays at 3s)
+	stunned_until_ms = int(max(stunned_until_ms, OS.get_ticks_msec() + duration_ms))
+
+func is_stunned():
+	return OS.get_ticks_msec() < stunned_until_ms
+
 func _input(event):
+	if is_stunned():
+		return
+
 	if event is InputEventMouseMotion:
 		var old_rotation = $HeadHolder.rotation
 		$HeadHolder.look_at(event.position)

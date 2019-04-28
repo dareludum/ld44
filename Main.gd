@@ -44,7 +44,7 @@ var UPGRADE_SELL_PRICE: Dictionary = {
 	Upgrade.U1_TODO: 5,
 }
 
-const PLAYER_BASE_MAX_HP: int = 1
+const PLAYER_BASE_MAX_HP: int = 6
 
 var game = null
 var upgrades = null

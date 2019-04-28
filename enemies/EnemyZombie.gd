@@ -7,5 +7,9 @@ func enemy_process(this, _player, delta):
 	var speed = Vector2(1, 0) * delta * ENEMY_SPEED
 	this.position += speed.rotated(this.rotation)
 
+func hit_player(this, player):
+	player.hp -= 2  # 1 heart
+	this.queue_free()
+
 func _silence_unused_warnings():
 	print(ENEMY_SPEED)
