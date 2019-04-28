@@ -6,7 +6,7 @@ const Player = preload("res://Player.gd")
 const Blade = preload("res://Blade.gd")
 
 func _ready():
-	assert(OK == $Area2D.connect("area_entered", self, "on_area_entered"))
+	assert(OK == self.connect("area_entered", self, "on_area_entered"))
 
 func _process(delta):
 	var speed = Vector2(1, 0) * delta * BULLET_SPEED
