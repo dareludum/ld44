@@ -24,6 +24,7 @@ var blade_swing_speed_multiplier_delta: float = 0.0
 var blade_swing_speed_multiplier: float = 1.0
 var blade_swing_speed_decay_cooldown_timer: Timer = Timer.new()
 var blade_swing_speed_is_decaying: bool = true
+var is_invincible_while_swinging: bool = false
 var is_swinging_blade: bool = false
 var can_swing_blade: bool = true
 var blade_reset_timer: Timer = Timer.new()
@@ -36,6 +37,8 @@ func get_position():
 	return self.position
 
 func set_hp(new):
+	if new < hp and self.is_swinging_blade and self.is_invincible_while_swinging:
+		return
 	hp = int(max(0, new))
 	if hp == 0:
 		emit_signal("died")
@@ -76,7 +79,9 @@ func _apply_upgrades():
 			if upgrades.has(Upgrade.W000_BIG_360):
 				self.blade.swing_range = 2 * PI
 		elif upgrades.has(Upgrade.W01_BIG_INVINCIBLE):
-			pass
+			self.is_invincible_while_swinging = true
+			if upgrades.has(Upgrade.W010_BIG_PROJECTILE_SHIELD):
+				self.blade.shields_against_projectiles = true
 	elif upgrades.has(Upgrade.W1_DUAL):
 		unneeded_blades.append($BladeHolder/BladeBig)
 		unneeded_blades.append($BladeHolder/BladeRotating)
@@ -144,6 +149,8 @@ func _swing_blade():
 		blade_left.engage()
 	blade.engage()
 	SFXEngine.play_sfx(SFXEngine.SFX_TYPE.BLADE)
+	if self.is_invincible_while_swinging:
+		$HeadHolder/Head/HeadSprite.modulate = Color.gray
 
 func on_blade_swing_end():
 	self.is_swinging_blade = false
@@ -165,6 +172,9 @@ func on_blade_swing_end():
 		self.blade_swing_speed_decay_cooldown_timer.stop()
 		self.blade_swing_speed_decay_cooldown_timer.start(BLADE_SWING_SPEED_MULTIPLIER_DECAY_COOLDOWN)
 		emit_signal("ep_add", n * n)   # basic combo
+
+	if self.is_invincible_while_swinging:
+		$HeadHolder/Head/HeadSprite.modulate = Color.white
 
 func stun(duration_ms):
 	# stun duration does not add up, but it's not clipped either (3s stun followed up by 1s stays at 3s)

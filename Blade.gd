@@ -5,6 +5,7 @@ export(float) var swing_range
 export(float) var swing_cooldown
 export(bool) var can_move_while_swinging
 export(bool) var can_kill_projectiles
+export(bool) var shields_against_projectiles
 
 # load instead of preload to break a cyclical dependency between Blade and Enemy
 var Enemy = load("res://Enemy.gd")
@@ -36,6 +37,7 @@ func set_can_kill_projectiles(value: bool):
 
 func _ready():
 	assert(OK == self.connect("area_entered", self, "on_area_entered"))
+	assert(OK == self.connect("area_exited", self, "on_area_exited"))
 
 func engage():
 	assert(not engaged)
@@ -51,12 +53,19 @@ func enemies_hit():
 
 func on_area_entered(area: Area2D):
 	if not engaged:
+		if area is Beam and self.shields_against_projectiles:
+			area.hide()
+			area.queue_free()
 		return
 	if area is Enemy and not (area in _enemies_hit):
 		_enemies_hit[area] = true
 	if area is Beam and self.can_kill_projectiles:
 		area.hide()
 		area.queue_free()
+
+func on_area_exited(area: Area2D):
+	if area is Enemy and not (area in _enemies_hit):
+		_enemies_hit[area] = true
 
 func update_multiplier(value: float):
 	# value is 1.0 to 2.0

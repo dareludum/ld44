@@ -31,6 +31,10 @@ func on_area_entered(area: Area2D):
 		in_play_area = true
 
 func on_area_exited(area: Area2D):
+	if area is Blade and area.engaged:
+		# todo: take damage instead
+		SFXEngine.play_sfx(SFXEngine.SFX_TYPE.ENEMY_DEATH)
+		self.queue_free()
 	if area == spawn_area:
 		# we left the game area or got pushed out of it
 		self.queue_free()

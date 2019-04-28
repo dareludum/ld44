@@ -9,7 +9,7 @@ enum Upgrade {
 	W00_BIG_SPEED_UP,
 	W000_BIG_360,
 	W01_BIG_INVINCIBLE,
-	W010_BIG_PASSIVE_PROJECTILE_DEFENSE,
+	W010_BIG_PROJECTILE_SHIELD,
 	W1_DUAL,
 	W10_DUAL_CAN_MOVE,
 	W100_DUAL_FAST,
@@ -86,8 +86,10 @@ func _ready():
 	# Test upgrades
 	self.player_upgrades[Upgrade.SLOT_WEAPON] = true
 	self.player_upgrades[Upgrade.W0_BIG] = true
-	self.player_upgrades[Upgrade.W00_BIG_SPEED_UP] = true
-	self.player_upgrades[Upgrade.W000_BIG_360] = true
+	# self.player_upgrades[Upgrade.W00_BIG_SPEED_UP] = true
+	# self.player_upgrades[Upgrade.W000_BIG_360] = true
+	self.player_upgrades[Upgrade.W01_BIG_INVINCIBLE] = true
+	self.player_upgrades[Upgrade.W010_BIG_PROJECTILE_SHIELD] = true	
 	# self.player_upgrades[Upgrade.W1_DUAL] = true
 	# self.player_upgrades[Upgrade.W10_DUAL_CAN_MOVE] = true
 	# self.player_upgrades[Upgrade.W100_DUAL_FAST] = true
