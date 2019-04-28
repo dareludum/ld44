@@ -2,6 +2,8 @@ extends Node2D
 
 const Blade = preload("res://Blade.gd")
 
+onready var SFXEngine = get_tree().root.get_node("Session").get_node("SoundEngine")
+
 var _player
 
 # one of the specs in res://enemies/, use it for anything specific to a particular enemy type
@@ -19,6 +21,7 @@ func _ready():
 func on_area_entered(area: Area2D):
 	if area is Blade and area.engaged:
 		# todo: take damage instead
+		SFXEngine.play_sfx(SFXEngine.SFX_TYPE.SFX_ENEMY_DEATH)
 		self.queue_free()
 
 func on_area_exited(area: Area2D):
