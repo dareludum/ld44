@@ -17,8 +17,7 @@ func _ready():
 	assert(OK == $Area2D.connect("area_exited", self, "on_area_exited"))
 
 func on_area_entered(area: Area2D):
-	var node = area.get_node("..")
-	if node is Blade and node.engaged:
+	if area is Blade and area.engaged:
 		# todo: take damage instead
 		self.queue_free()
 

@@ -6,7 +6,7 @@
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0.35, -13.22, 19.24, -3.34, 32.97, 19.26, -40.31, 8.93, -28.04, -13.19, -22.35, -9.3 )
 
-[node name="Blade" type="Node2D"]
+[node name="Blade" type="Area2D"]
 position = Vector2( -3.68051, -3.29309 )
 scale = Vector2( 0.764876, 0.73336 )
 script = ExtResource( 1 )
@@ -18,12 +18,9 @@ scale = Vector2( 0.407033, 0.484639 )
 texture = ExtResource( 2 )
 offset = Vector2( 78.7832, 85.0679 )
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 6
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 37.866, 0.0600948 )
 rotation = 0.730031
+scale = Vector2( 1, 1 )
 shape = SubResource( 1 )
 

@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 
 # load instead of preload to break a cyclical dependency between Blade and Enemy
 var Enemy = load("res://Enemy.gd")
@@ -7,7 +7,7 @@ var _enemies_hit: Dictionary = {}
 var engaged: bool = false
 
 func _ready():
-	assert(OK == $Area2D.connect("area_entered", self, "on_area_entered"))
+	assert(OK == self.connect("area_entered", self, "on_area_entered"))
 
 func engage():
 	assert(not engaged)
