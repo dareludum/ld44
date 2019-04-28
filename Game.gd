@@ -1,8 +1,16 @@
 extends Node2D
 
+signal gameover
+
+const FADEOUT_INTERVAL: float = 0.015
+const FADEOUT_INCREMENT: float = 0.007
+const FADEOUT_UNTIL: float = 1.2 # this is > 1 to let the screen be black for some time
+const FADEIN_INCREMENT: float = 0.05
+
 onready var Session = get_tree().root.get_node("Session")
 
-var timer: Timer = Timer.new()
+var spawn_timer: Timer = Timer.new()
+var fade_out_timer: Timer = Timer.new()
 
 const enemy_scenes = [
 	preload("res://scenes/EnemyStunner.tscn"),
@@ -10,18 +18,30 @@ const enemy_scenes = [
 ]
 
 func _ready():
-	timer.wait_time = 1
-	assert(OK == timer.connect("timeout", self, "_on_timer_timeout"))
-	self.add_child(timer)
-	timer.start()
+	spawn_timer.wait_time = 1
+	assert(OK == spawn_timer.connect("timeout", self, "_on_spawn_timer_timeout"))
+	self.add_child(spawn_timer)
+	spawn_timer.start()
+	
+	fade_out_timer.autostart = false
+	fade_out_timer.wait_time = FADEOUT_INTERVAL
+	assert(OK == fade_out_timer.connect("timeout", self, "_on_fade_out_timer_timeout"))
+	self.add_child(fade_out_timer)
 
 	assert(OK == $Player.connect("died", self, "_on_player_died"))
 
 func _on_player_died():
-	self.timer.stop()
+	self.spawn_timer.stop()
 	$Player.hide()
 	$Player.queue_free()
-	# TODO: fade out
+	fade_out_timer.start()
+
+func _on_fade_out_timer_timeout():
+	$BlackScreen.modulate.a += FADEOUT_INCREMENT
+	if $BlackScreen.modulate.a >= 0.3:
+		$YouDied.modulate.a += FADEIN_INCREMENT
+	if $BlackScreen.modulate.a >= FADEOUT_UNTIL:
+		emit_signal("gameover")
 
 func _on_timer_timeout():
 	var enemy = enemy_scenes[randi() % enemy_scenes.size()].instance()

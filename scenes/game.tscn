@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/ui_labels_font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://images/field.png" type="Texture" id=4]
+[ext_resource path="res://images/black_screen.png" type="Texture" id=5]
+[ext_resource path="res://images/you_died.png" type="Texture" id=6]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -48,4 +50,16 @@ text = "EP:10000"
 position = Vector2( 510, 300 )
 z_index = -1
 texture = ExtResource( 4 )
+
+[node name="BlackScreen" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 510, 300 )
+z_index = 100
+texture = ExtResource( 5 )
+
+[node name="YouDied" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 510, 200 )
+z_index = 1000
+texture = ExtResource( 6 )
 
