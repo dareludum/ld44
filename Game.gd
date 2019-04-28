@@ -43,7 +43,7 @@ func _on_fade_out_timer_timeout():
 	if $BlackScreen.modulate.a >= FADEOUT_UNTIL:
 		emit_signal("gameover")
 
-func _on_timer_timeout():
+func _on_spawn_timer_timeout():
 	var enemy = enemy_scenes[randi() % enemy_scenes.size()].instance()
 	enemy.set_target($Player)
 	self.add_child(enemy)
