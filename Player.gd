@@ -8,10 +8,10 @@ const PLAYER_SPEED: float = 100.0
 const BLADE_SWING_ANGULAR_SPEED: float = 4 * PI
 const BLADE_SWING_RANGE: float = 1.25 * PI
 const BLADE_SWING_COOLDOWN: float = 0.15
-const PLAYER_BASE_HP: int = 1
-const PLAYER_BASE_EP: int = 0
 
 var velocity: Vector2 = Vector2.ZERO
+
+onready var Session = get_tree().root.get_node("Session")
 
 onready var blade = $BladeHolder/Blade
 var blade_swing_start_rotation: float = 0.0
@@ -19,9 +19,8 @@ var is_swinging_blade: bool = false
 var can_swing_blade: bool = true
 var blade_reset_timer: Timer = Timer.new()
 
-var total_hp: int = PLAYER_BASE_HP
-var hp: int = PLAYER_BASE_HP
-var ep: int = PLAYER_BASE_EP
+var max_hp: int
+var hp: int
 
 func get_position():
 	return self.position
@@ -30,12 +29,12 @@ func get_hp():
 	return self.hp
 
 func get_max_hp():
-	return self.total_hp
-
-func get_ep():
-	return self.ep
+	return self.max_hp
 
 func _ready():
+	self.max_hp = Session.player_max_hp
+	self.hp = self.max_hp
+
 	self.blade_reset_timer.autostart = false
 	self.blade_reset_timer.one_shot = true
 	assert(OK == self.blade_reset_timer.connect("timeout", self, "_on_blade_cooldown_timer"))
@@ -76,7 +75,7 @@ func on_blade_swing_end():
 
 	# gain evolution points for killing enemies
 	var n = len(blade.enemies_hit())
-	ep += n * n   # basic combo
+	Session.ep += n * n   # basic combo
 
 func _input(event):
 	if event is InputEventMouseMotion:

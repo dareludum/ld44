@@ -1,5 +1,7 @@
 extends Node2D
 
+onready var Session = get_tree().root.get_node("Session")
+
 var timer: Timer = Timer.new()
 
 func _ready():
@@ -27,8 +29,8 @@ func _on_timer_timeout():
 func _update_ui():
 	if self.find_node("Player") == null:
 		return
-	$lbl_hp.text = "HP: " + str($Player.get_hp())
-	$lbl_ep.text = "EP:" + str($Player.get_ep())
+	$lbl_hp.text = "HP: " + str($Player.hp)
+	$lbl_ep.text = "EP: " + str(Session.ep)
 
 func _process(_delta):
 	_update_ui()
