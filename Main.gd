@@ -14,15 +14,13 @@ func get_player_max_hp():
 func get_ep():
 	return self.ep
 
-func set_ep(value: int):
-	self.ep = value
-
 func _ready():
 	start_new_game()
 
 func start_new_game():
 	self.game = preload("res://scenes/game.tscn").instance()
 	assert(OK == self.game.connect("gameover", self, "_on_gameover"))
+	assert(OK == self.game.get_node("Player").connect("ep_add", self, "_on_ep_add"))
 	self.add_child(self.game)
 
 func show_upgrades_screen():
@@ -41,3 +39,6 @@ func _on_play():
 	self.upgrades.queue_free()
 	self.upgrades = null
 	start_new_game()
+
+func _on_ep_add(value: int):
+	self.ep += value

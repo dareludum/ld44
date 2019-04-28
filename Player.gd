@@ -1,6 +1,7 @@
 extends Node2D
 
 signal died
+signal ep_add
 
 const Enemy = preload("res://Enemy.gd")
 
@@ -75,7 +76,8 @@ func on_blade_swing_end():
 
 	# gain evolution points for killing enemies
 	var n = len(blade.enemies_hit())
-	Session.ep += n * n   # basic combo
+	if n > 0:
+		emit_signal("ep_add", n * n)   # basic combo
 
 func _input(event):
 	if event is InputEventMouseMotion:

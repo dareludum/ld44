@@ -29,6 +29,7 @@ func _ready():
 	self.add_child(fade_out_timer)
 
 	assert(OK == $Player.connect("died", self, "_on_player_died"))
+	assert(OK == $Player.connect("ep_add", self, "_on_ep_add"))
 
 func _on_player_died():
 	self.spawn_timer.stop()
@@ -42,6 +43,12 @@ func _on_fade_out_timer_timeout():
 		$YouDied.modulate.a += FADEIN_INCREMENT
 	if $BlackScreen.modulate.a >= FADEOUT_UNTIL:
 		emit_signal("gameover")
+
+func _on_ep_add(value: int):
+	var info = preload("res://scenes/EvolutionPointsUp.tscn").instance()
+	info.set_value(value)
+	info.rect_position = $Player.position + Vector2(20, -40)
+	self.add_child(info)
 
 func _on_spawn_timer_timeout():
 	var enemy = enemy_scenes[randi() % enemy_scenes.size()].instance()
