@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/blade3.wav-f7c9ac96c2fa4dd2658cb46777a8c55a.sample"
+
+[deps]
+
+source_file="res://sfx/blade3.wav"
+dest_files=[ "res://.import/blade3.wav-f7c9ac96c2fa4dd2658cb46777a8c55a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
