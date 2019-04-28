@@ -13,6 +13,7 @@ const BLADE_SWING_COOLDOWN: float = 0.15
 var velocity: Vector2 = Vector2.ZERO
 
 onready var Session = get_tree().root.get_node("Session")
+onready var SFXEngine = Session.get_node("SoundEngine")
 
 onready var blade = $BladeHolder/Blade
 var blade_swing_start_rotation: float = 0.0
@@ -68,6 +69,7 @@ func _swing_blade():
 	self.is_swinging_blade = true
 	self.can_swing_blade = false
 	blade.engage()
+	SFXEngine.play_sfx(SFXEngine.SFX_TYPE.SFX_BLADE)
 
 func on_blade_swing_end():
 	self.is_swinging_blade = false
