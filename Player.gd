@@ -105,7 +105,12 @@ func on_blade_swing_end():
 	blade.disengage()
 
 	# gain evolution points for killing enemies
-	var n = len(blade.enemies_hit())
+	var enemies_hit = blade.enemies_hit()
+	if blade_left != null:
+		var enemies_hit_left = blade_left.enemies_hit()
+		for enemy in enemies_hit_left:
+			enemies_hit[enemy] = enemies_hit_left[enemy]
+	var n = len(enemies_hit)
 	if n > 0:
 		emit_signal("ep_add", n * n)   # basic combo
 
