@@ -1,21 +1,20 @@
-extends TextureButton
+extends Button
 
 
-var upgrades = {"WeaponButton": preload("res://scenes/WeaponUpgrades.tscn"),
-                "SurvivalButton": preload("res://scenes/SurvivalUpgrades.tscn"),
-                "AbilityButton": preload("res://scenes/AbilityUpgrades.tscn")
+var upgrades = {"WeaponButton": preload("res://scenes/WeaponUpgrades.tscn").instance(),
+                "SurvivalButton": preload("res://scenes/SurvivalUpgrades.tscn").instance(),
+                "AbilityButton": preload("res://scenes/AbilityUpgrades.tscn").instance()
 }
 
 
 func instanciate():
-    var cur_upgrades = get_node("../../Upgrades")
+    var cur_upgrades = get_node("../../Tree/Upgrades")
     
     if (cur_upgrades != null):
-        get_node("../..").remove_child(cur_upgrades)
-        cur_upgrades.queue_free()
+        get_node("../../Tree").remove_child(cur_upgrades)
         
-    cur_upgrades = upgrades[self.name].instance()
-    get_node("../../").add_child(cur_upgrades)
+    cur_upgrades = upgrades[self.name]
+    get_node("../../Tree").add_child(cur_upgrades)
     
 func _pressed():
     instanciate()
