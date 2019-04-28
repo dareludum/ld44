@@ -43,11 +43,7 @@ func _process(delta):
 	if self.is_swinging_blade:
 		$BladeHolder.rotation -= BLADE_SWING_ANGULAR_SPEED * delta
 		if $BladeHolder.rotation < self.blade_swing_start_rotation - BLADE_SWING_RANGE:
-			self.is_swinging_blade = false
-			self.blade_reset_timer.start(BLADE_SWING_COOLDOWN)
-			blade.disengage()
-			for enemy in blade.enemies_hit():
-				enemy.queue_free()
+			on_blade_swing_end()
 
 func _on_blade_cooldown_timer():
 	$BladeHolder.rotation = $HeadHolder.rotation
@@ -60,6 +56,15 @@ func _swing_blade():
 	self.is_swinging_blade = true
 	self.can_swing_blade = false
 	blade.engage()
+
+func on_blade_swing_end():
+	self.is_swinging_blade = false
+	self.blade_reset_timer.start(BLADE_SWING_COOLDOWN)
+	blade.disengage()
+
+	# gain evolution points for killing enemies
+	var n = len(blade.enemies_hit())
+	ep += n * n   # basic combo
 
 func _input(event):
 	if event is InputEventMouseMotion:
