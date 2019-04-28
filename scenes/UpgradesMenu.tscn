@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://UpgradesMenu.gd" type="Script" id=1]
 [ext_resource path="res://images/slots.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://images/upgrade_button_pressed.png" type="Texture" id=4]
 [ext_resource path="res://SlotButton.gd" type="Script" id=5]
 [ext_resource path="res://images/field.png" type="Texture" id=6]
+[ext_resource path="res://fonts/default.tres" type="DynamicFont" id=7]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -45,6 +46,7 @@ text = "Blabla UI there"
 align = 1
 
 [node name="MidUI" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+editor/display_folded = true
 margin_top = 54.0
 margin_right = 1024.0
 margin_bottom = 546.0
@@ -53,6 +55,7 @@ size_flags_vertical = 3
 custom_constants/separation = 100
 
 [node name="Slots" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MidUI"]
+editor/display_folded = true
 margin_top = 204.0
 margin_right = 224.0
 margin_bottom = 288.0
@@ -119,6 +122,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="BotUI" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+editor/display_folded = true
 margin_top = 550.0
 margin_right = 1024.0
 margin_bottom = 600.0
@@ -153,4 +157,11 @@ text = "Play"
 position = Vector2( 510, 300 )
 z_index = -1
 texture = ExtResource( 6 )
+
+[node name="Description" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 68.198
+margin_right = 520.0
+margin_bottom = 188.198
+custom_fonts/font = ExtResource( 7 )
 

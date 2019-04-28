@@ -19,3 +19,13 @@ func instantiate():
 func _pressed():
     instantiate()
     print(self.name)
+    
+func _process(__):
+    if (is_hovered()):
+        var desc = get_node("../../../../../../Description")
+        if (self.name == "WeaponButton"):
+            desc.text = "Weapon button description"
+        elif (self.name == "SurvivalButton"):
+            desc.text = "Survival button description"
+        else:
+            desc.text = "Ability button description"
