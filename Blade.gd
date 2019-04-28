@@ -52,9 +52,8 @@ func enemies_hit():
 func on_area_entered(area: Area2D):
 	if not engaged:
 		return
-	var hit = area.get_node("..")
-	if hit is Enemy and not (hit in _enemies_hit):
-		_enemies_hit[hit] = true
+	if area is Enemy and not (area in _enemies_hit):
+		_enemies_hit[area] = true
 	if area is Beam and self.can_kill_projectiles:
 		area.hide()
 		area.queue_free()
