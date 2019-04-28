@@ -102,6 +102,7 @@ func show_upgrades_screen():
 
 func _on_gameover():
 	self.game.hide()
+	self.game.cleanup()
 	self.game.queue_free()
 	self.game = null
 	show_upgrades_screen()

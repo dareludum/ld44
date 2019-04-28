@@ -7,14 +7,16 @@ const FADEOUT_INCREMENT: float = 0.007
 const FADEOUT_UNTIL: float = 1.2 # this is > 1 to let the screen be black for some time
 const FADEIN_INCREMENT: float = 0.05
 
+const Enemy = preload("res://Enemy.gd")
+
 onready var Session = get_tree().root.get_node("Session")
 
 var spawn_timer: Timer = Timer.new()
 var fade_out_timer: Timer = Timer.new()
 
 const enemy_scenes = [
-	# preload("res://scenes/EnemyStunner.tscn"),
-	# preload("res://scenes/EnemyZombie.tscn"),
+	preload("res://scenes/EnemyStunner.tscn"),
+	preload("res://scenes/EnemyZombie.tscn"),
 	preload("res://scenes/EnemyAlienSmall.tscn"),
 ]
 
@@ -53,8 +55,8 @@ func _on_ep_add(value: int):
 
 func _on_spawn_timer_timeout():
 	var enemy = enemy_scenes[randi() % enemy_scenes.size()].instance()
-	enemy.init($Player, $PlayArea)
 	self.add_child(enemy)
+	enemy.init($Player, $PlayArea)
 	$EnemySpawnRect/SpawnLocation.offset = randi()
 	enemy.position = $EnemySpawnRect/SpawnLocation.position
 	enemy.look_at($Player.position)
@@ -68,3 +70,10 @@ func _update_ui():
 
 func _process(_delta):
 	_update_ui()
+
+# WAR for the apparent reuse of IDs
+func cleanup():
+	for node in get_children():
+		if node is Enemy:
+			print("cleaning up " + str(node))
+			node.cleanup()

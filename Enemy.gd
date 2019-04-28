@@ -38,13 +38,5 @@ func _process(delta):
 	if is_instance_valid(spec) and is_instance_valid(player):
 		spec.enemy_process(self, player, delta)
 
-	# follow the player
-	# self.look_at(_player.position)
-
-	# var speed = Vector2(1, 0) * delta * spec.ENEMY_SPEED
-	# self.position += speed.rotated(self.rotation)
-
-	# damage the player and disappear
-	# if abs((self.position - _player.position).length()) < 10:
-	#	_player.hp -= 1
-	#	self.queue_free()
+func cleanup():
+	spec = null

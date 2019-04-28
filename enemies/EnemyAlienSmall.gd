@@ -43,7 +43,7 @@ func process_shooting(this, player, _delta):
 	bullet.look_at(player.position)
 	next_shot_after = now + SHOT_COOLDOWN_MS
 
-func hit_player(_player):
+func hit_player(_this, _player):
 	pass
 
 func _silence_unused_warnings():
