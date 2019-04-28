@@ -53,6 +53,7 @@ func _on_spawn_timer_timeout():
 
 func _update_ui():
 	if self.find_node("Player") == null:
+		$lbl_hp.text = "HP: 0"
 		return
 	$lbl_hp.text = "HP: " + str($Player.hp)
 	$lbl_ep.text = "EP: " + str(Session.ep)

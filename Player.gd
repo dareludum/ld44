@@ -4,8 +4,8 @@ signal died
 
 const Enemy = preload("res://Enemy.gd")
 
-const PLAYER_SPEED: float = 100.0
-const BLADE_SWING_ANGULAR_SPEED: float = 4 * PI
+const PLAYER_SPEED: float = 150.0
+const BLADE_SWING_ANGULAR_SPEED: float = 6 * PI
 const BLADE_SWING_RANGE: float = 1.25 * PI
 const BLADE_SWING_COOLDOWN: float = 0.15
 
