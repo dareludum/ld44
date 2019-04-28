@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 
 const Blade = preload("res://Blade.gd")
 
@@ -16,8 +16,8 @@ func init(_player, _play_area):
 	play_area = _play_area
 
 func _ready():
-	assert(OK == $Area2D.connect("area_entered", self, "on_area_entered"))
-	assert(OK == $Area2D.connect("area_exited", self, "on_area_exited"))
+	assert(OK == self.connect("area_entered", self, "on_area_entered"))
+	assert(OK == self.connect("area_exited", self, "on_area_exited"))
 
 func on_area_entered(area: Area2D):
 	if area is Blade and area.engaged:

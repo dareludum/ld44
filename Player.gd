@@ -89,9 +89,8 @@ func _apply_upgrades():
 		unneeded.queue_free()
 
 func on_area_entered(area: Area2D):
-	var node = area.get_node("..")
-	if node is Enemy:
-		node.hit_player(self)
+	if area is Enemy:
+		area.hit_player(self)
 
 func _process(delta):
 	if (not is_stunned()) and (not self.is_swinging_blade or self.blade.can_move_while_swinging):
