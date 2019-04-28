@@ -26,14 +26,16 @@ func _ready():
 	assert(OK == spawn_timer.connect("timeout", self, "_on_spawn_timer_timeout"))
 	self.add_child(spawn_timer)
 	spawn_timer.start()
-	
+	assert(OK == $BackgroundMusic.connect("finished", self, "_on_music_finished"))
 	fade_out_timer.autostart = false
 	fade_out_timer.wait_time = FADEOUT_INTERVAL
 	assert(OK == fade_out_timer.connect("timeout", self, "_on_fade_out_timer_timeout"))
 	self.add_child(fade_out_timer)
-
 	assert(OK == $Player.connect("died", self, "_on_player_died"))
 	assert(OK == $Player.connect("ep_add", self, "_on_ep_add"))
+
+func _on_music_finished():
+	$BackgroundMusic.play()
 
 func _on_player_died():
 	self.spawn_timer.stop()
