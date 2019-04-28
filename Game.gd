@@ -15,6 +15,7 @@ var fade_out_timer: Timer = Timer.new()
 const enemy_scenes = [
 	preload("res://scenes/EnemyStunner.tscn"),
 	preload("res://scenes/EnemyZombie.tscn"),
+	preload("res://scenes/EnemyAlienSmall.tscn"),
 ]
 
 func _ready():
@@ -52,7 +53,7 @@ func _on_ep_add(value: int):
 
 func _on_spawn_timer_timeout():
 	var enemy = enemy_scenes[randi() % enemy_scenes.size()].instance()
-	enemy.set_target($Player)
+	enemy.init($Player, $PlayArea)
 	self.add_child(enemy)
 	$EnemySpawnRect/SpawnLocation.offset = randi()
 	enemy.position = $EnemySpawnRect/SpawnLocation.position

@@ -4,15 +4,16 @@ const Blade = preload("res://Blade.gd")
 
 onready var SFXEngine = get_tree().root.get_node("Session").get_node("SoundEngine")
 
-var _player
+var player
 
 # one of the specs in res://enemies/, use it for anything specific to a particular enemy type
 onready var spec = $Spec
 
 onready var play_area = get_node("../PlayArea")
 
-func set_target(player):
-	_player = player
+func init(_player, _play_area):
+	player = _player
+	play_area = _play_area
 
 func _ready():
 	assert(OK == $Area2D.connect("area_entered", self, "on_area_entered"))
@@ -30,11 +31,15 @@ func on_area_exited(area: Area2D):
 		self.queue_free()
 
 func _process(delta):
-	var speed = Vector2(1, 0) * delta * spec.ENEMY_SPEED
+	if not is_instance_valid(player):
+		return
 
+	spec.enemy_process(self, player, delta)
 	# follow the player
 	# self.look_at(_player.position)
-	self.position += speed.rotated(self.rotation)
+
+	# var speed = Vector2(1, 0) * delta * spec.ENEMY_SPEED
+	# self.position += speed.rotated(self.rotation)
 
 	# damage the player and disappear
 	# if abs((self.position - _player.position).length()) < 10:
