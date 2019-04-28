@@ -20,7 +20,7 @@ func process_movement(this, player, delta):
 	var dist = to_player.length()
 	var speed = 0
 	if dist < PREFERRED_DIST_LOW:
-		speed = -0.5 * ENEMY_SPEED
+		speed = -0.25 * ENEMY_SPEED
 	elif dist > PREFERRED_DIST_HIGH:
 		speed = ENEMY_SPEED
 		
