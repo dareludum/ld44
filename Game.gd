@@ -10,6 +10,7 @@ const FADEIN_INCREMENT: float = 0.05
 const Enemy = preload("res://Enemy.gd")
 
 onready var Session = get_tree().root.get_node("Session")
+onready var SFXEngine = Session.get_node("SoundEngine")
 
 var spawn_timer: Timer = Timer.new()
 var fade_out_timer: Timer = Timer.new()
@@ -41,6 +42,8 @@ func _on_player_died():
 	fade_out_timer.start()
 
 func _on_fade_out_timer_timeout():
+	if $BlackScreen.modulate.a == 0:
+		SFXEngine.play_sfx(SFXEngine.SFX_TYPE.GAME_OVER)
 	$BlackScreen.modulate.a += FADEOUT_INCREMENT
 	if $BlackScreen.modulate.a >= 0.3:
 		$YouDied.modulate.a += FADEIN_INCREMENT
