@@ -8,7 +8,6 @@ const Enemy = preload("res://Enemy.gd")
 var Upgrade = load("res://Main.gd").Upgrade
 
 const PLAYER_SPEED: float = 150.0
-const BLADE_SWING_RANGE: float = 1.25 * PI
 
 var velocity: Vector2 = Vector2.ZERO
 
@@ -48,23 +47,40 @@ func _ready():
 
 func _apply_upgrades():
 	var upgrades: Dictionary = Session.get_player_upgrades()
+	var unneeded_blades = []
 	if upgrades.has(Upgrade.W0_BIG):
-		$BladeHolder/Blade.hide()
-		$BladeHolder/Blade.queue_free()
-		$LeftBladeHolder/BladeLeft.hide()
-		$LeftBladeHolder/BladeLeft.queue_free()
+		unneeded_blades.append($BladeHolder/Blade)
+		unneeded_blades.append($BladeHolder/BladeRotating)
+		unneeded_blades.append($LeftBladeHolder/BladeLeft)
 		self.blade = $BladeHolder/BladeBig
 	elif upgrades.has(Upgrade.W1_DUAL):
-		$BladeHolder/BladeBig.hide()
-		$BladeHolder/BladeBig.queue_free()
+		unneeded_blades.append($BladeHolder/BladeBig)
+		unneeded_blades.append($BladeHolder/BladeRotating)
 		self.blade = $BladeHolder/Blade
 		self.blade_left = $LeftBladeHolder/BladeLeft
+		if upgrades.has(Upgrade.W10_DUAL_CAN_MOVE):
+			self.blade.can_move_while_swinging = true
+			if upgrades.has(Upgrade.W100_DUAL_FAST):
+				self.blade.swing_angular_speed = 6 * PI
+				self.blade.swing_cooldown = 0.15
+			elif upgrades.has(Upgrade.W101_DUAL_ROTATING):
+				unneeded_blades.erase($BladeHolder/BladeRotating)
+				unneeded_blades.append($LeftBladeHolder/BladeLeft)
+				self.blade_left = $BladeHolder/BladeRotating
+		elif upgrades.has(Upgrade.W11_DUAL_KILL_PROJECTILES):
+			self.blade.can_kill_projectiles = true
+			if upgrades.has(Upgrade.W110_DUAL_360):
+				self.blade.swing_range = 1.75 * PI
+				self.blade.swing_cooldown = 0.05
 	else:
-		$BladeHolder/BladeBig.hide()
-		$BladeHolder/BladeBig.queue_free()
-		$LeftBladeHolder/BladeLeft.hide()
+		unneeded_blades.append($BladeHolder/BladeBig)
+		unneeded_blades.append($LeftBladeHolder/BladeLeft)
 		$LeftBladeHolder/BladeLeft.queue_free()
 		self.blade = $BladeHolder/Blade
+
+	for unneeded in unneeded_blades:
+		unneeded.hide()
+		unneeded.queue_free()
 
 func _on_collision(area: Area2D):
 	var node = area.get_node("..")
@@ -79,7 +95,7 @@ func _process(delta):
 	if self.is_swinging_blade:
 		$LeftBladeHolder.rotation += self.blade.swing_angular_speed * delta
 		$BladeHolder.rotation -= self.blade.swing_angular_speed * delta
-		if $BladeHolder.rotation < self.blade_swing_start_rotation - BLADE_SWING_RANGE:
+		if $BladeHolder.rotation < self.blade_swing_start_rotation - self.blade.swing_range:
 			on_blade_swing_end()
 
 func _on_blade_cooldown_timer():
