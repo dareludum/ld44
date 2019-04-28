@@ -117,7 +117,7 @@ func _swing_blade():
 	if blade_left != null:
 		blade_left.engage()
 	blade.engage()
-	SFXEngine.play_sfx(SFXEngine.SFX_TYPE.SFX_BLADE)
+	SFXEngine.play_sfx(SFXEngine.SFX_TYPE.BLADE)
 
 func on_blade_swing_end():
 	self.is_swinging_blade = false

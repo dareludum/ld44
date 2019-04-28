@@ -22,7 +22,7 @@ func _ready():
 func on_area_entered(area: Area2D):
 	if area is Blade and area.engaged:
 		# todo: take damage instead
-		SFXEngine.play_sfx(SFXEngine.SFX_TYPE.SFX_ENEMY_DEATH)
+		SFXEngine.play_sfx(SFXEngine.SFX_TYPE.ENEMY_DEATH)
 		self.queue_free()
 
 func on_area_exited(area: Area2D):
