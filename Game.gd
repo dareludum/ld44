@@ -8,6 +8,14 @@ func _ready():
 	self.add_child(timer)
 	timer.start()
 
+	assert(OK == $Player.connect("died", self, "_on_player_died"))
+
+func _on_player_died():
+	self.timer.stop()
+	$Player.hide()
+	$Player.queue_free()
+	# TODO: fade out
+
 func _on_timer_timeout():
 	var enemy = preload("res://scenes/enemy.tscn").instance()
 	enemy.set_target($Player)
@@ -17,6 +25,8 @@ func _on_timer_timeout():
 	enemy.look_at($Player.position)
 
 func _update_ui():
+	if self.find_node("Player") == null:
+		return
 	$lbl_hp.text = "HP: " + str($Player.get_hp())
 	$lbl_ep.text = "EP:" + str($Player.get_ep())
 
