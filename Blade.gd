@@ -8,6 +8,7 @@ export(bool) var can_kill_projectiles
 
 # load instead of preload to break a cyclical dependency between Blade and Enemy
 var Enemy = load("res://Enemy.gd")
+var Beam = load("res://BeamPink.gd")
 
 var _enemies_hit: Dictionary = {}
 var engaged: bool = false
@@ -54,3 +55,6 @@ func on_area_entered(area: Area2D):
 	var hit = area.get_node("..")
 	if hit is Enemy and not (hit in _enemies_hit):
 		_enemies_hit[hit] = true
+	if area is Beam and self.can_kill_projectiles:
+		area.hide()
+		area.queue_free()

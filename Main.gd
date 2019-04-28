@@ -82,11 +82,11 @@ func _ready():
 	# Test upgrades
 	self.player_upgrades[Upgrade.SLOT_WEAPON] = true
 	self.player_upgrades[Upgrade.W1_DUAL] = true
-	self.player_upgrades[Upgrade.W10_DUAL_CAN_MOVE] = true
+	# self.player_upgrades[Upgrade.W10_DUAL_CAN_MOVE] = true
 	# self.player_upgrades[Upgrade.W100_DUAL_FAST] = true
-	self.player_upgrades[Upgrade.W101_DUAL_ROTATING] = true
-	# self.player_upgrades[Upgrade.W11_DUAL_KILL_PROJECTILES] = true
-	# self.player_upgrades[Upgrade.W110_DUAL_360] = true
+	# self.player_upgrades[Upgrade.W101_DUAL_ROTATING] = true
+	self.player_upgrades[Upgrade.W11_DUAL_KILL_PROJECTILES] = true
+	self.player_upgrades[Upgrade.W110_DUAL_360] = true
 	start_new_game()
 
 func start_new_game():
