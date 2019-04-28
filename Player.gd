@@ -48,13 +48,13 @@ func _ready():
 
 func _apply_upgrades():
 	var upgrades: Dictionary = Session.get_player_upgrades()
-	if upgrades.has(Upgrade.WEAPON_0):
+	if upgrades.has(Upgrade.W0_BIG):
 		$BladeHolder/Blade.hide()
 		$BladeHolder/Blade.queue_free()
 		$LeftBladeHolder/BladeLeft.hide()
 		$LeftBladeHolder/BladeLeft.queue_free()
 		self.blade = $BladeHolder/BladeBig
-	elif upgrades.has(Upgrade.WEAPON_1):
+	elif upgrades.has(Upgrade.W1_DUAL):
 		$BladeHolder/BladeBig.hide()
 		$BladeHolder/BladeBig.queue_free()
 		self.blade = $BladeHolder/Blade

@@ -3,41 +3,41 @@ extends Node2D
 enum Upgrade {
 	SLOT_WEAPON,
 	SLOT_SURVIVAL,
-	SLOT_SPECIAL,
+	SLOT_ULTIMATE,
 
-	WEAPON_0,
-	# TODO: flat subtree: WEAPON_0_0, etc.
-	WEAPON_1,
-	SURVIVAL_0,
-	SURVIVAL_1,
-	SPECIAL_0,
-	SPECIAL_1,
+	W0_BIG,
+	# TODO: flat subtree: W00_BIG_XYZ, etc.
+	W1_DUAL,
+	S0_TODO,
+	S1_TODO,
+	U0_TODO,
+	U1_TODO,
 }
 
 var UPGRADE_COST: Dictionary = {
 	Upgrade.SLOT_WEAPON: 10,
 	Upgrade.SLOT_SURVIVAL: 10,
-	Upgrade.SLOT_SPECIAL: 10,
+	Upgrade.SLOT_ULTIMATE: 10,
 
-	Upgrade.WEAPON_0: 10,
-	Upgrade.WEAPON_1: 10,
+	Upgrade.W0_BIG: 10,
+	Upgrade.W1_DUAL: 10,
 
-	Upgrade.SURVIVAL_0: 10,
-	Upgrade.SURVIVAL_1: 10,
+	Upgrade.S0_TODO: 10,
+	Upgrade.S1_TODO: 10,
 
-	Upgrade.SPECIAL_0: 10,
-	Upgrade.SPECIAL_1: 10,
+	Upgrade.U0_TODO: 10,
+	Upgrade.U1_TODO: 10,
 }
 
 var UPGRADE_SELL_PRICE: Dictionary = {
-	Upgrade.WEAPON_0: 5,
-	Upgrade.WEAPON_1: 5,
+	Upgrade.W0_BIG: 5,
+	Upgrade.W1_DUAL: 5,
 
-	Upgrade.SURVIVAL_0: 5,
-	Upgrade.SURVIVAL_1: 5,
+	Upgrade.S0_TODO: 5,
+	Upgrade.S1_TODO: 5,
 
-	Upgrade.SPECIAL_0: 5,
-	Upgrade.SPECIAL_1: 5,
+	Upgrade.U0_TODO: 5,
+	Upgrade.U1_TODO: 5,
 }
 
 const PLAYER_BASE_MAX_HP: int = 1
@@ -77,7 +77,7 @@ func get_sell_price(upgrade):
 func _ready():
 	# Test upgrades
 	self.player_upgrades[Upgrade.SLOT_WEAPON] = true
-	self.player_upgrades[Upgrade.WEAPON_1] = true
+	self.player_upgrades[Upgrade.W1_DUAL] = true
 	start_new_game()
 
 func start_new_game():
