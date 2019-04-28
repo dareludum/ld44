@@ -2,6 +2,7 @@ extends Node2D
 
 const PLAYER_SPEED: float = 100.0
 const BLADE_SWING_ANGULAR_SPEED: float = 4 * PI
+const BLADE_SWING_RANGE: float = 1.25 * PI
 const BLADE_SWING_COOLDOWN: float = 0.15
 const PLAYER_BASE_HP: float = 100.0
 const PLAYER_BASE_EP: int = 0
@@ -9,9 +10,10 @@ const PLAYER_BASE_EP: int = 0
 var velocity: Vector2 = Vector2.ZERO
 
 onready var blade = $BladeHolder/Blade
-var isSwingingBlade: bool = false
-var canSwingBlade: bool = true
-var bladeResetTimer: Timer = Timer.new()
+var blade_swing_start_rotation: float = 0.0
+var is_swinging_blade: bool = false
+var can_swing_blade: bool = true
+var blade_reset_timer: Timer = Timer.new()
 
 var total_hp: float = PLAYER_BASE_HP
 var hp: float = PLAYER_BASE_HP
@@ -30,26 +32,41 @@ func get_ep():
 	return self.ep
 
 func _ready():
-	self.bladeResetTimer.autostart = false
-	self.bladeResetTimer.one_shot = true
-	assert(OK == self.bladeResetTimer.connect("timeout", self, "_on_blade_cooldown_timer"))
-	self.add_child(self.bladeResetTimer)
+	self.blade_reset_timer.autostart = false
+	self.blade_reset_timer.one_shot = true
+	assert(OK == self.blade_reset_timer.connect("timeout", self, "_on_blade_cooldown_timer"))
+	self.add_child(self.blade_reset_timer)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	self.position += velocity * PLAYER_SPEED * delta
-	if self.isSwingingBlade:
+	if self.is_swinging_blade:
 		$BladeHolder.rotation -= BLADE_SWING_ANGULAR_SPEED * delta
-		if $BladeHolder.rotation < -1.25 * PI:
-			self.isSwingingBlade = false
-			self.bladeResetTimer.start(BLADE_SWING_COOLDOWN)
+		if $BladeHolder.rotation < self.blade_swing_start_rotation - BLADE_SWING_RANGE:
+			self.is_swinging_blade = false
+			self.blade_reset_timer.start(BLADE_SWING_COOLDOWN)
 			blade.disengage()
 			for enemy in blade.enemies_hit():
 				enemy.queue_free()
 
+func _on_blade_cooldown_timer():
+	$BladeHolder.rotation = $HeadHolder.rotation
+	self.can_swing_blade = true
+
+func _swing_blade():
+	if not self.can_swing_blade:
+		return
+	self.blade_swing_start_rotation = $BladeHolder.rotation
+	self.is_swinging_blade = true
+	self.can_swing_blade = false
+	blade.engage()
+
 func _input(event):
 	if event is InputEventMouseMotion:
-		self.look_at(event.position)
+		var old_rotation = $HeadHolder.rotation
+		$HeadHolder.look_at(event.position)
+		if not self.is_swinging_blade:
+			$BladeHolder.rotate($HeadHolder.rotation - old_rotation)
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT and event.is_pressed():
 			self._swing_blade()
@@ -64,14 +81,3 @@ func _input(event):
 		if Input.is_action_pressed("go_right"):
 			velocity.x += 1
 		velocity = velocity.normalized()
-
-func _swing_blade():
-	if not self.canSwingBlade:
-		return
-	self.isSwingingBlade = true
-	self.canSwingBlade = false
-	blade.engage()
-
-func _on_blade_cooldown_timer():
-	$BladeHolder.rotation = 0.0
-	self.canSwingBlade = true
