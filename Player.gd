@@ -74,7 +74,8 @@ func _on_collision(area: Area2D):
 			emit_signal("died")
 
 func _process(delta):
-	self.position += velocity * PLAYER_SPEED * delta
+	if not self.is_swinging_blade or self.blade.can_move_while_swinging:
+		self.position += velocity * PLAYER_SPEED * delta
 	if self.is_swinging_blade:
 		$LeftBladeHolder.rotation += self.blade.swing_angular_speed * delta
 		$BladeHolder.rotation -= self.blade.swing_angular_speed * delta

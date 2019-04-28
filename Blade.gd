@@ -2,6 +2,7 @@ extends Area2D
 
 export(float) var swing_angular_speed
 export(float) var swing_cooldown
+export(bool) var can_move_while_swinging
 
 # load instead of preload to break a cyclical dependency between Blade and Enemy
 var Enemy = load("res://Enemy.gd")
@@ -14,6 +15,9 @@ func get_swing_angular_speed():
 
 func get_swing_cooldown():
 	return self.swing_cooldown
+
+func get_can_move_while_swinging():
+	return self.can_move_while_swinging
 
 func _ready():
 	assert(OK == self.connect("area_entered", self, "on_area_entered"))
