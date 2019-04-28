@@ -77,7 +77,7 @@ func get_sell_price(upgrade):
 func _ready():
 	# Test upgrades
 	self.player_upgrades[Upgrade.SLOT_WEAPON] = true
-	self.player_upgrades[Upgrade.WEAPON_0] = true
+	self.player_upgrades[Upgrade.WEAPON_1] = true
 	start_new_game()
 
 func start_new_game():

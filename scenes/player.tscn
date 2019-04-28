@@ -53,3 +53,12 @@ scale = Vector2( 1.4, 1.15 )
 swing_angular_speed = 12.566
 swing_cooldown = 0.25
 
+[node name="LeftBladeHolder" type="Position2D" parent="."]
+
+[node name="BladeLeft" parent="LeftBladeHolder" instance=ExtResource( 3 )]
+position = Vector2( -7.922, -9.424 )
+rotation = -2.0176
+scale = Vector2( 1, -1 )
+swing_angular_speed = 18.85
+swing_cooldown = 0.15
+
