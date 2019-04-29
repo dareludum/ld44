@@ -46,6 +46,7 @@ func _on_player_died():
 func _on_fade_out_timer_timeout():
 	if $BlackScreen.modulate.a == 0:
 		SFXEngine.play_sfx(SFXEngine.SFX_TYPE.GAME_OVER)
+		$BackgroundMusic.stop()
 	$BlackScreen.modulate.a += FADEOUT_INCREMENT
 	if $BlackScreen.modulate.a >= 0.3:
 		$YouDied.modulate.a += FADEIN_INCREMENT
