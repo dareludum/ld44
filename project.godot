@@ -62,6 +62,7 @@ go_down={
 2d_physics/layer_1="player"
 2d_physics/layer_2="blade"
 2d_physics/layer_3="enemies"
+2d_physics/layer_4="bullets"
 
 [rendering]
 
