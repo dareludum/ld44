@@ -123,14 +123,15 @@ func _ready():
 	# self.player_upgrades[Upgrade.W100_DUAL_ROTATING] = true
 	# self.player_upgrades[Upgrade.W11_DUAL_KILL_PROJECTILES] = true
 	# self.player_upgrades[Upgrade.W110_DUAL_360] = true
-	self.player_upgrades[Upgrade.SLOT_SURVIVAL] = true
+	# self.player_upgrades[Upgrade.SLOT_SURVIVAL] = true
 	# self.player_upgrades[Upgrade.S0_SPEED] = true
 	# self.player_upgrades[Upgrade.S00_SPRINT] = true
 	# self.player_upgrades[Upgrade.S000_LONG_SPRINT] = true
 	# self.player_upgrades[Upgrade.S01_BLINK] = true
-	self.player_upgrades[Upgrade.S1_ARMOR] = true
-	self.player_upgrades[Upgrade.S10_BUBBLE] = true
-	self.player_upgrades[Upgrade.S100_DOUBLE_BUBBLE] = true
+	# self.player_upgrades[Upgrade.S010_DOUBLE_BLINK] = true
+	# self.player_upgrades[Upgrade.S1_ARMOR] = true
+	# self.player_upgrades[Upgrade.S10_BUBBLE] = true
+	# self.player_upgrades[Upgrade.S100_DOUBLE_BUBBLE] = true
 	# self.player_upgrades[Upgrade.S11_INVINCIBILITY_ON_HIT] = true
 	# self.player_upgrades[Upgrade.S110_SHORT_STUN] = true
 	start_new_game()

@@ -43,9 +43,9 @@ var sprint_multiplier: float = 1.0
 var sprint_time_max: float = SPRINT_TIME_MAX
 var sprint_seconds_left: float = self.sprint_time_max
 var is_sprinting: bool = false
-var can_blink: bool = false
 var is_blinking: bool = false
-var is_blinking_cooldown_active: bool = false
+var blink_charges_max: int = 0
+var blink_charges: int = 0
 var blink_cooldown_timer: Timer = Timer.new()
 var has_armor: bool = false
 var is_invincible_on_hit: bool = false
@@ -178,7 +178,10 @@ func _apply_upgrades():
 				self.sprint_time_max = LONG_SPRINT_TIME_MAX
 				self.sprint_seconds_left = self.sprint_time_max
 		elif upgrades.has(Upgrade.S01_BLINK):
-			self.can_blink = true
+			self.blink_charges_max = 1
+			if upgrades.has(Upgrade.S010_DOUBLE_BLINK):
+				self.blink_charges_max = 2
+			self.blink_charges = self.blink_charges_max
 	elif upgrades.has(Upgrade.S1_ARMOR):
 		self.has_armor = true
 		if upgrades.has(Upgrade.S10_BUBBLE):
@@ -214,7 +217,7 @@ func _process(delta):
 			distance = velocity * BLINK_DISTANCE
 			self.blink_cooldown_timer.start(BLINK_COOLDOWN)
 			self.is_blinking = false
-			self.is_blinking_cooldown_active = true
+			self.blink_charges -= 1
 
 		var _drag = drag.clamped(5 * PLAYER_SPEED * delta)
 		drag -= _drag
@@ -245,7 +248,7 @@ func _on_blade_swing_speed_decay_cooldown_timer():
 	self.blade_swing_speed_is_decaying = true
 
 func _on_blink_cooldown_timer():
-	self.is_blinking_cooldown_active = false
+	self.blink_charges = self.blink_charges_max
 
 func _on_invincibility_timer():
 	self.is_invincible = false
@@ -342,4 +345,4 @@ func _input(event):
 			self.velocity.x += 1
 		self.velocity = self.velocity.normalized()
 		self.is_sprinting = Input.is_action_pressed("sprint")
-		self.is_blinking = Input.is_action_just_pressed("blink") and self.can_blink and not self.is_blinking_cooldown_active
+		self.is_blinking = Input.is_action_just_pressed("blink") and self.blink_charges > 0
