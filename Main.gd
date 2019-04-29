@@ -110,7 +110,7 @@ var UPGRADE_DESCRIPTIONS : Dictionary = {
 	Upgrade.S110_SHORT_STUN: "Reduced stun duration",
 }
 
-const PLAYER_BASE_MAX_HP: int = 1
+const PLAYER_BASE_MAX_HP: int = 100
 
 var game = null
 var upgrades = null
@@ -290,10 +290,11 @@ func _ready():
 	# self.player_upgrades[Upgrade.S11_INVINCIBILITY_ON_HIT] = true
 	# self.player_upgrades[Upgrade.S110_SHORT_STUN] = true
 	# self.ep = 5
-	# start_new_game()
-	show_upgrades_screen()
+	start_new_game()
+	# show_upgrades_screen()
 
 func start_new_game():
+	self.player_max_hp = PLAYER_BASE_MAX_HP - int(len(player_upgrades) * float(PLAYER_BASE_MAX_HP) / 10)
 	self.game = preload("res://scenes/game.tscn").instance()
 	assert(OK == self.game.connect("gameover", self, "_on_gameover"))
 	assert(OK == self.game.get_node("Player").connect("ep_add", self, "_on_ep_add"))
