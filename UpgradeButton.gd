@@ -37,5 +37,5 @@ func unlock():
 
 func _pressed():
     var desc = Session.get_upgrade_description(upgrade)
-    get_node("../../../../../../../Description").text = desc
+    get_node("../../../../../../../../Description").text = desc
     Upgrades.set_pending_upgrade(self)

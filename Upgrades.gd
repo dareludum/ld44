@@ -2,9 +2,14 @@ extends VBoxContainer
 
 var pending_button = null
 onready var player_upgrades = get_tree().root.get_node("Session").get_player_upgrades()
+onready var Upgrade = get_tree().root.get_node("Session").Upgrade
 
 func _ready():
-    var counter = 8;
+    var counter : int
+    if (self.name == "DualBlade"):
+        counter = Upgrade.W0_BIG
+    elif (self.name == "SingleBlade"):
+        counter = Upgrade.W1_DUAL
     for level in get_children():
         for button in level.get_children():
             print(button.name)
