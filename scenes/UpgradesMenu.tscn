@@ -5,8 +5,8 @@
 [ext_resource path="res://images/upgrade_button.png" type="Texture" id=3]
 [ext_resource path="res://images/upgrade_button_pressed.png" type="Texture" id=4]
 [ext_resource path="res://SlotButton.gd" type="Script" id=5]
-[ext_resource path="res://images/field.png" type="Texture" id=6]
-[ext_resource path="res://fonts/default.tres" type="DynamicFont" id=7]
+[ext_resource path="res://fonts/default.tres" type="DynamicFont" id=6]
+[ext_resource path="res://images/field.png" type="Texture" id=7]
 [ext_resource path="res://BuyUpgrade.gd" type="Script" id=8]
 
 [node name="Control" type="Control"]
@@ -23,6 +23,7 @@ margin_right = 1024.0
 margin_bottom = 600.0
 
 [node name="TopUI" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+editor/display_folded = true
 margin_right = 1024.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
@@ -54,7 +55,6 @@ size_flags_vertical = 3
 custom_constants/separation = 100
 
 [node name="Slots" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MidUI"]
-editor/display_folded = true
 margin_top = 204.0
 margin_right = 224.0
 margin_bottom = 288.0
@@ -66,7 +66,6 @@ position = Vector2( 111.469, 57.4926 )
 texture = ExtResource( 2 )
 
 [node name="Slots0" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MidUI/Slots"]
-editor/display_folded = true
 margin_left = 92.0
 margin_right = 132.0
 margin_bottom = 40.0
@@ -121,28 +120,25 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="BotUI" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-editor/display_folded = true
 margin_top = 550.0
 margin_right = 1024.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 0, 50 )
 custom_constants/separation = 0
 
-[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/BotUI"]
+[node name="Description" type="Label" parent="MarginContainer/VBoxContainer/BotUI"]
+margin_top = 8.0
 margin_right = 512.0
-margin_bottom = 50.0
+margin_bottom = 42.0
 size_flags_horizontal = 3
-size_flags_vertical = 5
-text = "Blabla UI there"
-align = 1
+custom_fonts/font = ExtResource( 6 )
 
-[node name="Label4" type="Label" parent="MarginContainer/VBoxContainer/BotUI"]
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/BotUI"]
 margin_left = 512.0
 margin_right = 1024.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
-text = "Blabla UI there"
 align = 1
 
 [node name="PlayButton" type="Button" parent="."]
@@ -155,14 +151,7 @@ text = "Play"
 [node name="Field" type="Sprite" parent="."]
 position = Vector2( 510, 300 )
 z_index = -1
-texture = ExtResource( 6 )
-
-[node name="Description" type="Label" parent="."]
-margin_left = 20.0
-margin_top = 68.198
-margin_right = 520.0
-margin_bottom = 188.198
-custom_fonts/font = ExtResource( 7 )
+texture = ExtResource( 7 )
 
 [node name="BuyButton" type="Button" parent="."]
 margin_left = 51.0052

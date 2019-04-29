@@ -1,6 +1,13 @@
 extends Button
 
+signal buy
+var upgrade_button
+
 func _pressed():
-    var Upgrades = get_node("../MarginContainer/VBoxContainer/MidUI/Tree/Upgrades")
-    if (Upgrades != null):
-        Upgrades.buy()
+        emit_signal("buy")
+        
+func set_upgrade_button(upgrade_button):
+    self.upgrade_button = upgrade_button
+    
+func get_upgrade_button():
+    return upgrade_button

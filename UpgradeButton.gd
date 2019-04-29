@@ -32,10 +32,10 @@ func unlock():
         else:
             return false
             
-    get_node("../../../../../../../Description").text = "Upgrade already owned!"
+    get_node("../../../../../../BotUI/Description").text = "Upgrade already owned!"
     return true
 
 func _pressed():
     var desc = Session.get_upgrade_description(upgrade)
-    get_node("../../../../../../../../Description").text = desc
+    get_node("../../../../../../BotUI/Description").text = desc
     Upgrades.set_pending_upgrade(self)

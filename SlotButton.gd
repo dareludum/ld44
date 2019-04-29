@@ -22,7 +22,7 @@ func _pressed():
     
 func _process(__):
     if (is_hovered()):
-        var desc = get_node("../../../../../../Description")
+        var desc = get_node("../../../../BotUI/Description")
         if (self.name == "WeaponButton"):
             desc.text = "Weapon button description"
         elif (self.name == "SurvivalButton"):
