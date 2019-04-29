@@ -11,8 +11,7 @@ enum Upgrade {
 	W010_BIG_PROJECTILE_SHIELD,
 	W1_DUAL,
 	W10_DUAL_CAN_MOVE,
-	W100_DUAL_FAST,
-	W101_DUAL_ROTATING,
+	W100_DUAL_ROTATING,
 	W11_DUAL_KILL_PROJECTILES,
 	W110_DUAL_360,
 	S0_SPEED,
@@ -32,8 +31,7 @@ var UPGRADE_COST: Dictionary = {
 	Upgrade.W1_DUAL: 10,
     
     Upgrade.W10_DUAL_CAN_MOVE: 10,
-	Upgrade.W100_DUAL_FAST: 10,
-	Upgrade.W101_DUAL_ROTATING: 10,
+	Upgrade.W100_DUAL_ROTATING: 10,
 	Upgrade.W11_DUAL_KILL_PROJECTILES: 10,
 	Upgrade.W110_DUAL_360: 10,
 
@@ -57,8 +55,7 @@ var UPGRADE_DESCRIPTIONS : Dictionary = {
 	Upgrade.W010_BIG_PROJECTILE_SHIELD: "Blade serves as a shield against projectiles when not swinging",
 	Upgrade.W1_DUAL: "Twice as many blades, for twice as many victims",
 	Upgrade.W10_DUAL_CAN_MOVE: "Move while swinging",
-	Upgrade.W100_DUAL_FAST: "Move faster and don't waste any time",
-	Upgrade.W101_DUAL_ROTATING: "Rotate your blades while swinging",
+	Upgrade.W100_DUAL_ROTATING: "Rotate your blades while swinging",
 	Upgrade.W11_DUAL_KILL_PROJECTILES: "Swing at projectiles to make them disappear",
 	Upgrade.W110_DUAL_360: "Swing your blades in a 360 fashion",
 	Upgrade.S0_SPEED: "Run 1.5 times faster",
@@ -117,8 +114,7 @@ func _ready():
 	# self.player_upgrades[Upgrade.W010_BIG_PROJECTILE_SHIELD] = true
 	# self.player_upgrades[Upgrade.W1_DUAL] = true
 	# self.player_upgrades[Upgrade.W10_DUAL_CAN_MOVE] = true
-	# self.player_upgrades[Upgrade.W100_DUAL_FAST] = true
-	# self.player_upgrades[Upgrade.W101_DUAL_ROTATING] = true
+	# self.player_upgrades[Upgrade.W100_DUAL_ROTATING] = true
 	# self.player_upgrades[Upgrade.W11_DUAL_KILL_PROJECTILES] = true
 	# self.player_upgrades[Upgrade.W110_DUAL_360] = true
 	# self.player_upgrades[Upgrade.SLOT_SURVIVAL] = true

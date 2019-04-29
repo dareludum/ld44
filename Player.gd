@@ -147,10 +147,7 @@ func _apply_upgrades():
 		self.blade_left = $LeftBladeHolder/BladeLeft
 		if upgrades.has(Upgrade.W10_DUAL_CAN_MOVE):
 			self.blade.can_move_while_swinging = true
-			if upgrades.has(Upgrade.W100_DUAL_FAST):
-				self.blade.swing_angular_speed = 6 * PI
-				self.blade.swing_cooldown = 0.15
-			elif upgrades.has(Upgrade.W101_DUAL_ROTATING):
+			if upgrades.has(Upgrade.W100_DUAL_ROTATING):
 				unneeded_blades.erase($BladeHolder/BladeRotating)
 				unneeded_blades.append($LeftBladeHolder/BladeLeft)
 				self.blade_left = $BladeHolder/BladeRotating
