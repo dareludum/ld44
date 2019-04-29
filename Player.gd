@@ -130,6 +130,7 @@ func _apply_upgrades():
 				self.blade.swing_cooldown = 0.05
 	else:
 		unneeded_blades.append($BladeHolder/BladeBig)
+		unneeded_blades.append($BladeHolder/BladeRotating)
 		unneeded_blades.append($LeftBladeHolder/BladeLeft)
 		$LeftBladeHolder/BladeLeft.queue_free()
 		self.blade = $BladeHolder/Blade
