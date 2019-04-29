@@ -3,7 +3,6 @@ extends Node2D
 enum Upgrade {
 	SLOT_WEAPON,
 	SLOT_SURVIVAL,
-	SLOT_ULTIMATE,
 
 	W0_BIG,
 	W00_BIG_SPEED_UP,
@@ -23,14 +22,11 @@ enum Upgrade {
 	S10_BUBBLE,
 	S11_INVINCIBILITY_ON_HIT,
 	S110_SHORT_STUN,
-	U0_TODO,
-	U1_TODO,
 }
 
 var UPGRADE_COST: Dictionary = {
 	Upgrade.SLOT_WEAPON: 10,
 	Upgrade.SLOT_SURVIVAL: 10,
-	Upgrade.SLOT_ULTIMATE: 10,
 
 	Upgrade.W0_BIG: 10,
 	Upgrade.W1_DUAL: 10,
@@ -43,9 +39,6 @@ var UPGRADE_COST: Dictionary = {
 
 	Upgrade.S0_SPEED: 10,
 	Upgrade.S1_ARMOR: 10,
-
-	Upgrade.U0_TODO: 10,
-	Upgrade.U1_TODO: 10,
 }
 
 var UPGRADE_SELL_PRICE: Dictionary = {
@@ -54,9 +47,6 @@ var UPGRADE_SELL_PRICE: Dictionary = {
 
 	Upgrade.S0_SPEED: 5,
 	Upgrade.S1_ARMOR: 5,
-
-	Upgrade.U0_TODO: 5,
-	Upgrade.U1_TODO: 5,
 }
 
 var UPGRADE_DESCRIPTIONS : Dictionary = {
