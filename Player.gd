@@ -15,6 +15,7 @@ const BLADE_SWING_SPEED_MULTIPLIER_DECAY_COOLDOWN: float = 2.0
 const SPRINT_TIME_MAX: float = 2.0
 const BLINK_DISTANCE: float = 100.0
 const BLINK_COOLDOWN: float = 2.0
+const INVINCIBILITY_ON_HIT_DURATION: float = 1.0
 
 var velocity: Vector2 = Vector2.ZERO
 
@@ -43,6 +44,9 @@ var is_blinking: bool = false
 var is_blinking_cooldown_active: bool = false
 var blink_cooldown_timer: Timer = Timer.new()
 var has_armor: bool = false
+var is_invincible_on_hit: bool = false
+var is_invincible: bool = false
+var invincibility_timer: Timer = Timer.new()
 
 var max_hp: int  # 2 HP == 1 heart
 var hp: int setget set_hp, get_hp
@@ -51,7 +55,7 @@ func get_position():
 	return self.position
 
 func set_hp(new):
-	if new < hp and self.is_swinging_blade and self.is_invincible_while_swinging:
+	if new < hp and _is_invincible():
 		return
 	var difference = new - hp
 	if self.has_armor and difference < -1:
@@ -59,6 +63,10 @@ func set_hp(new):
 	hp = int(max(0, new))
 	if difference < 0:
 		SFXEngine.play_sfx(SFXEngine.SFX_TYPE.PLAYER_HIT)
+		if self.is_invincible_on_hit:
+			self.is_invincible = true
+			self.invincibility_timer.start(INVINCIBILITY_ON_HIT_DURATION)
+			_update_modifier_graphics()
 		emit_signal("hit", -difference)
 	if hp == 0:
 		emit_signal("died")
@@ -68,6 +76,17 @@ func get_hp():
 
 func get_max_hp():
 	return self.max_hp
+
+func _is_invincible():
+	return self.is_invincible or (self.is_invincible_while_swinging and self.is_swinging_blade)
+
+func _update_modifier_graphics():
+	if self.is_stunned:
+		$HeadHolder/Head/HeadSprite.modulate = Color.darkgray
+	elif _is_invincible():
+		$HeadHolder/Head/HeadSprite.modulate = Color.skyblue
+	else:
+		$HeadHolder/Head/HeadSprite.modulate = Color.white
 
 func _ready():
 	self.add_child(SFXEngine)
@@ -94,6 +113,11 @@ func _ready():
 	self.blink_cooldown_timer.one_shot = true
 	assert(OK == self.blink_cooldown_timer.connect("timeout", self, "_on_blink_cooldown_timer"))
 	self.add_child(self.blink_cooldown_timer)
+
+	self.invincibility_timer.autostart = false
+	self.invincibility_timer.one_shot = true
+	assert(OK == self.invincibility_timer.connect("timeout", self, "_on_invincibility_timer"))
+	self.add_child(self.invincibility_timer)
 
 	assert(OK == $HeadHolder/Head.connect("area_entered", self, "on_area_entered"))
 
@@ -155,7 +179,7 @@ func _apply_upgrades():
 		if upgrades.has(Upgrade.S10_BUBBLE):
 			has_bubble = true
 		elif upgrades.has(Upgrade.S11_INVINCIBILITY_ON_HIT):
-			pass
+			self.is_invincible_on_hit = true
 
 	if not has_bubble:
 		$Bubble.hide()
@@ -206,6 +230,10 @@ func _on_blade_swing_speed_decay_cooldown_timer():
 func _on_blink_cooldown_timer():
 	self.is_blinking_cooldown_active = false
 
+func _on_invincibility_timer():
+	self.is_invincible = false
+	_update_modifier_graphics()
+
 func _swing_blade():
 	if not self.can_swing_blade:
 		return
@@ -216,8 +244,7 @@ func _swing_blade():
 		blade_left.engage()
 	blade.engage()
 	SFXEngine.play_sfx(SFXEngine.SFX_TYPE.BLADE)
-	if self.is_invincible_while_swinging:
-		$HeadHolder/Head/HeadSprite.modulate = Color.skyblue
+	_update_modifier_graphics()
 
 func on_blade_swing_end():
 	self.is_swinging_blade = false
@@ -239,9 +266,7 @@ func on_blade_swing_end():
 		self.blade_swing_speed_decay_cooldown_timer.stop()
 		self.blade_swing_speed_decay_cooldown_timer.start(BLADE_SWING_SPEED_MULTIPLIER_DECAY_COOLDOWN)
 		emit_signal("ep_add", n * n)   # basic combo
-
-	if self.is_invincible_while_swinging and not self.is_stunned:
-		$HeadHolder/Head/HeadSprite.modulate = Color.white
+	_update_modifier_graphics()
 
 func stun(duration_ms):
 	# stun duration does not add up, but it's not clipped either (3s stun followed up by 1s stays at 3s)
@@ -251,11 +276,11 @@ func stun(duration_ms):
 	self.stun_timer.start(duration_ms / 1000)
 	self.is_stunned = true
 	self.velocity = Vector2.ZERO
-	$HeadHolder/Head/HeadSprite.modulate = Color.darkgray
+	_update_modifier_graphics()
 
 func _on_stun_timer():
 	self.is_stunned = false
-	$HeadHolder/Head/HeadSprite.modulate = Color.white
+	_update_modifier_graphics()
 
 func _input(event):
 	if self.is_stunned:

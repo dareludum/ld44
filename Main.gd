@@ -122,7 +122,7 @@ func _ready():
 	# self.player_upgrades[Upgrade.W00_BIG_SPEED_UP] = true
 	# self.player_upgrades[Upgrade.W000_BIG_360] = true
 	# self.player_upgrades[Upgrade.W01_BIG_INVINCIBLE] = true
-	# self.player_upgrades[Upgrade.W010_BIG_PROJECTILE_SHIELD] = true	
+	# self.player_upgrades[Upgrade.W010_BIG_PROJECTILE_SHIELD] = true
 	# self.player_upgrades[Upgrade.W1_DUAL] = true
 	# self.player_upgrades[Upgrade.W10_DUAL_CAN_MOVE] = true
 	# self.player_upgrades[Upgrade.W100_DUAL_FAST] = true
@@ -133,7 +133,8 @@ func _ready():
 	# self.player_upgrades[Upgrade.S0_SPEED] = true
 	# self.player_upgrades[Upgrade.S01_BLINK] = true
 	# self.player_upgrades[Upgrade.S1_ARMOR] = true
-	# self.player_upgrades[Upgrade.S10_BUBBLE] = true	
+	# self.player_upgrades[Upgrade.S10_BUBBLE] = true
+	# self.player_upgrades[Upgrade.S11_INVINCIBILITY_ON_HIT] = true
 	start_new_game()
 
 func start_new_game():
