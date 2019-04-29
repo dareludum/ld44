@@ -286,6 +286,18 @@ func stun(duration_ms):
 
 func _on_stun_timer():
 	self.is_stunned = false
+	# TODO: refactor this, remove duplication with _input()
+	self.velocity = Vector2.ZERO
+	if Input.is_action_pressed("go_up"):
+		self.velocity.y -= 1
+	if Input.is_action_pressed("go_down"):
+		self.velocity.y += 1
+	if Input.is_action_pressed("go_left"):
+		self.velocity.x -= 1
+	if Input.is_action_pressed("go_right"):
+		self.velocity.x += 1
+	self.velocity = self.velocity.normalized()
+	self.is_sprinting = Input.is_action_pressed("sprint")
 	_update_modifier_graphics()
 
 func _input(event):
