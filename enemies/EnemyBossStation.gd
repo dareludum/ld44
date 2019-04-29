@@ -24,8 +24,14 @@ var bullet_major: Timer = Timer.new()
 var bullet_minor: Timer = Timer.new()
 var bullets_spawned: int = 0  # reset every wave
 
-const ENEMY_WAVE_COOLDOWN = 10
+const ENEMY_WAVE_COOLDOWN = 6
 var enemy_wave_timer: Timer = Timer.new()
+var enemy_wave_counter: int = 0
+var enemy_wave_configs = [
+	[3, preload("res://scenes/EnemyZombieBig.tscn")],
+	[5, preload("res://scenes/EnemyZombieSmall.tscn")],
+	[4, preload("res://scenes/EnemyZombieNormal.tscn")],
+]
 
 onready var health_bar_holder = get_node("../HealthBarHolder")
 onready var health_bar = health_bar_holder.get_node("HealthBar")
@@ -118,13 +124,19 @@ func _on_bullet_minor():
 		bullet_minor.stop()
 
 func _on_bullet_major():
-	bullet_major.wait_time = BULLET_MAJOR_COOLDOWN
+	bullet_major.stop()
+	bullet_major.start(BULLET_MAJOR_COOLDOWN)
 	bullet_minor.start(BULLET_MINOR_COOLDOWN)
 	bullets_spawned = 0
 
 func _on_enemy_wave():
-	enemy_wave_timer.wait_time = ENEMY_WAVE_COOLDOWN
-	game.spawn_enemy(preload("res://scenes/EnemyZombieBig.tscn"))
+	enemy_wave_timer.stop()
+	enemy_wave_timer.start(ENEMY_WAVE_COOLDOWN)
+	var num_enemies = enemy_wave_configs[enemy_wave_counter][0]
+	var enemy_scene = enemy_wave_configs[enemy_wave_counter][1]
+	enemy_wave_counter = (enemy_wave_counter + 1) % len(enemy_wave_configs)
+	for _i in range(num_enemies):
+		game.spawn_enemy(enemy_scene)
 
 # returns false once the target is reached
 func move_towards(target: Vector2):
@@ -174,6 +186,7 @@ func coroutine():
 	this.get_node("Stage1").hide()
 	this.get_node("Stage2").show()
 	rotation_speed = -rotation_speed
+	corner_idx = (corner_idx + 2) % len(corners)
 
 	#################### PHASE 3 ####################
 	phase = 3
@@ -181,7 +194,7 @@ func coroutine():
 
 	while hp > 0:
 		var corner = corners[corner_idx]
-		corner_idx = (corner_idx + 1) % len(corners)
+		corner_idx = (corner_idx + 3) % len(corners)
 		var target = Vector2(vr.position.x + vr.size.x * corner.x, vr.position.y + vr.size.y * corner.y)
 		while move_towards(target) and hp > 0:
 			yield()

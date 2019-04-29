@@ -7,7 +7,7 @@ var hp: int = 2
 # `this` is the Enemy parent to this Spec
 func enemy_process(this, player, delta):
 	var speed = Vector2(1, 0) * delta * ENEMY_SPEED
-	get_node("..").look_at(player.position)
+	this.look_at(player.position)
 	this.position += speed.rotated(this.rotation)
 
 func hit_player(this, player):
