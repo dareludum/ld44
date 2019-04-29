@@ -235,6 +235,7 @@ func stun(duration_ms):
 	self.stun_timer.stop()
 	self.stun_timer.start(duration_ms / 1000)
 	self.is_stunned = true
+	self.velocity = Vector2.ZERO
 	$HeadHolder/Head/HeadSprite.modulate = Color.darkgray
 
 func _on_stun_timer():
