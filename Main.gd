@@ -1,38 +1,38 @@
 extends Node2D
 
 enum Upgrade {
-	SLOT_WEAPON,
-	SLOT_SURVIVAL,
-
 	W0_BIG,
 	W00_BIG_SPEED_UP,
-	W000_BIG_360,
 	W01_BIG_INVINCIBLE,
+	W000_BIG_360,
 	W010_BIG_PROJECTILE_SHIELD,
 
 	W1_DUAL,
 	W10_DUAL_CAN_MOVE,
-	W100_DUAL_ROTATING,
 	W11_DUAL_KILL_PROJECTILES,
+	W100_DUAL_ROTATING,
 	W110_DUAL_360,
 
 	S0_SPEED,
 	S00_SPRINT,
-	S000_LONG_SPRINT,
 	S01_BLINK,
+	S000_LONG_SPRINT,
 	S010_DOUBLE_BLINK,
 
 	S1_ARMOR,
 	S10_BUBBLE,
-	S100_DOUBLE_BUBBLE,
 	S11_INVINCIBILITY_ON_HIT,
+	S100_DOUBLE_BUBBLE,
 	S110_SHORT_STUN,
 }
 
-var UPGRADE_COST: Dictionary = {
-	Upgrade.SLOT_WEAPON: 10,
-	Upgrade.SLOT_SURVIVAL: 10,
+enum UpgradeStatus {
+	UNAVAILABLE,
+	AVAILABLE,
+	BOUGHT,
+}
 
+var UPGRADE_COST: Dictionary = {
 	Upgrade.W0_BIG: 10,
 	Upgrade.W00_BIG_SPEED_UP: 10,
 	Upgrade.W000_BIG_360: 10,
@@ -117,7 +117,7 @@ var upgrades = null
 
 var player_max_hp: int = PLAYER_BASE_MAX_HP
 var player_upgrades: Dictionary = {}
-var ep: int = 20
+var ep: int = 0
 
 func get_player_max_hp():
 	return self.player_max_hp
@@ -147,9 +147,128 @@ func get_upgrade_description(upgrade):
 func get_upgrade_icon(upgrade):
 	return UPGRADE_ICONS[upgrade]
 
+func get_upgrade_status(upgrade):
+	if self.player_upgrades.has(upgrade):
+		return UpgradeStatus.BOUGHT
+	match upgrade:
+		Upgrade.W0_BIG:
+			if not self.player_upgrades.has(Upgrade.W1_DUAL):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.W00_BIG_SPEED_UP:
+			if self.player_upgrades.has(Upgrade.W0_BIG) and not self.player_upgrades.has(Upgrade.W01_BIG_INVINCIBLE):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.W000_BIG_360:
+			if self.player_upgrades.has(Upgrade.W0_BIG) and self.player_upgrades.has(Upgrade.W00_BIG_SPEED_UP):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.W01_BIG_INVINCIBLE:
+			if self.player_upgrades.has(Upgrade.W0_BIG) and not self.player_upgrades.has(Upgrade.W00_BIG_SPEED_UP):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.W010_BIG_PROJECTILE_SHIELD:
+			if self.player_upgrades.has(Upgrade.W0_BIG) and self.player_upgrades.has(Upgrade.W01_BIG_INVINCIBLE):
+				return UpgradeStatus.AVAILABLE
+
+		Upgrade.W1_DUAL:
+			if not self.player_upgrades.has(Upgrade.W0_BIG):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.W10_DUAL_CAN_MOVE:
+			if self.player_upgrades.has(Upgrade.W1_DUAL) and not self.player_upgrades.has(Upgrade.W11_DUAL_KILL_PROJECTILES):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.W100_DUAL_ROTATING:
+			if self.player_upgrades.has(Upgrade.W1_DUAL) and self.player_upgrades.has(Upgrade.W10_DUAL_CAN_MOVE):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.W11_DUAL_KILL_PROJECTILES:
+			if self.player_upgrades.has(Upgrade.W1_DUAL) and not self.player_upgrades.has(Upgrade.W10_DUAL_CAN_MOVE):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.W110_DUAL_360:
+			if self.player_upgrades.has(Upgrade.W1_DUAL) and self.player_upgrades.has(Upgrade.W11_DUAL_KILL_PROJECTILES):
+				return UpgradeStatus.AVAILABLE
+
+		Upgrade.S0_SPEED:
+			if not self.player_upgrades.has(Upgrade.S1_ARMOR):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.S00_SPRINT:
+			if self.player_upgrades.has(Upgrade.S0_SPEED) and not self.player_upgrades.has(Upgrade.S01_BLINK):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.S000_LONG_SPRINT:
+			if self.player_upgrades.has(Upgrade.S0_SPEED) and self.player_upgrades.has(Upgrade.S00_SPRINT):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.S01_BLINK:
+			if self.player_upgrades.has(Upgrade.S0_SPEED) and not self.player_upgrades.has(Upgrade.S00_SPRINT):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.S010_DOUBLE_BLINK:
+			if self.player_upgrades.has(Upgrade.S0_SPEED) and self.player_upgrades.has(Upgrade.S01_BLINK):
+				return UpgradeStatus.AVAILABLE
+
+		Upgrade.S1_ARMOR:
+			if not self.player_upgrades.has(Upgrade.S0_SPEED):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.S10_BUBBLE:
+			if self.player_upgrades.has(Upgrade.S1_ARMOR) and not self.player_upgrades.has(Upgrade.S11_INVINCIBILITY_ON_HIT):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.S100_DOUBLE_BUBBLE:
+			if self.player_upgrades.has(Upgrade.S1_ARMOR) and self.player_upgrades.has(Upgrade.S10_BUBBLE):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.S11_INVINCIBILITY_ON_HIT:
+			if self.player_upgrades.has(Upgrade.S1_ARMOR) and not self.player_upgrades.has(Upgrade.S10_BUBBLE):
+				return UpgradeStatus.AVAILABLE
+		Upgrade.S110_SHORT_STUN:
+			if self.player_upgrades.has(Upgrade.S1_ARMOR) and self.player_upgrades.has(Upgrade.S11_INVINCIBILITY_ON_HIT):
+				return UpgradeStatus.AVAILABLE
+
+	return UpgradeStatus.UNAVAILABLE
+
+func can_sell_upgrade(upgrade):
+	if not self.player_upgrades.has(upgrade):
+		return false
+	match upgrade:
+		Upgrade.W0_BIG:
+			return not (self.player_upgrades.has(Upgrade.W00_BIG_SPEED_UP) or self.player_upgrades.has(Upgrade.W01_BIG_INVINCIBLE))
+		Upgrade.W00_BIG_SPEED_UP:
+			return not self.player_upgrades.has(Upgrade.W000_BIG_360)
+		Upgrade.W000_BIG_360:
+			return true
+		Upgrade.W01_BIG_INVINCIBLE:
+			return not self.player_upgrades.has(Upgrade.W010_BIG_PROJECTILE_SHIELD)
+		Upgrade.W010_BIG_PROJECTILE_SHIELD:
+			return true
+
+		Upgrade.W1_DUAL:
+			return not (self.player_upgrades.has(Upgrade.W10_DUAL_CAN_MOVE) or self.player_upgrades.has(Upgrade.W11_DUAL_KILL_PROJECTILES))
+		Upgrade.W10_DUAL_CAN_MOVE:
+			return not self.player_upgrades.has(Upgrade.W100_DUAL_ROTATING)
+		Upgrade.W100_DUAL_ROTATING:
+			return true
+		Upgrade.W11_DUAL_KILL_PROJECTILES:
+			return not self.player_upgrades.has(Upgrade.W110_DUAL_360)
+		Upgrade.W110_DUAL_360:
+			return true
+
+		Upgrade.S0_SPEED:
+			return not (self.player_upgrades.has(Upgrade.S00_SPRINT) or self.player_upgrades.has(Upgrade.S01_BLINK))
+		Upgrade.S00_SPRINT:
+			return not self.player_upgrades.has(Upgrade.S000_LONG_SPRINT)
+		Upgrade.S000_LONG_SPRINT:
+			return true
+		Upgrade.S01_BLINK:
+			return not self.player_upgrades.has(Upgrade.S010_DOUBLE_BLINK)
+		Upgrade.S010_DOUBLE_BLINK:
+			return true
+
+		Upgrade.S1_ARMOR:
+			return not (self.player_upgrades.has(Upgrade.S10_BUBBLE) or self.player_upgrades.has(Upgrade.S11_INVINCIBILITY_ON_HIT))
+		Upgrade.S10_BUBBLE:
+			return not self.player_upgrades.has(Upgrade.S100_DOUBLE_BUBBLE)
+		Upgrade.S100_DOUBLE_BUBBLE:
+			return true
+		Upgrade.S11_INVINCIBILITY_ON_HIT:
+			return not self.player_upgrades.has(Upgrade.S110_SHORT_STUN)
+		Upgrade.S110_SHORT_STUN:
+			return true
+
+	return UpgradeStatus.UNAVAILABLE
+
 func _ready():
 	# Test upgrades
-	# self.player_upgrades[Upgrade.SLOT_WEAPON] = true
 	# self.player_upgrades[Upgrade.W0_BIG] = true
 	# self.player_upgrades[Upgrade.W00_BIG_SPEED_UP] = true
 	# self.player_upgrades[Upgrade.W000_BIG_360] = true
@@ -160,7 +279,6 @@ func _ready():
 	# self.player_upgrades[Upgrade.W100_DUAL_ROTATING] = true
 	# self.player_upgrades[Upgrade.W11_DUAL_KILL_PROJECTILES] = true
 	# self.player_upgrades[Upgrade.W110_DUAL_360] = true
-	# self.player_upgrades[Upgrade.SLOT_SURVIVAL] = true
 	# self.player_upgrades[Upgrade.S0_SPEED] = true
 	# self.player_upgrades[Upgrade.S00_SPRINT] = true
 	# self.player_upgrades[Upgrade.S000_LONG_SPRINT] = true
@@ -171,7 +289,9 @@ func _ready():
 	# self.player_upgrades[Upgrade.S100_DOUBLE_BUBBLE] = true
 	# self.player_upgrades[Upgrade.S11_INVINCIBILITY_ON_HIT] = true
 	# self.player_upgrades[Upgrade.S110_SHORT_STUN] = true
-	start_new_game()
+	# self.ep = 5
+	# start_new_game()
+	show_upgrades_screen()
 
 func start_new_game():
 	self.game = preload("res://scenes/game.tscn").instance()
@@ -180,7 +300,7 @@ func start_new_game():
 	self.add_child(self.game)
 
 func show_upgrades_screen():
-	self.upgrades = preload("res://scenes/UpgradesMenu.tscn").instance()
+	self.upgrades = preload("res://scenes/UpgradeMenu.tscn").instance()
 	assert(OK == self.upgrades.connect("play", self, "_on_play"))
 	self.add_child(self.upgrades)
 

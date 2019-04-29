@@ -1,41 +1,22 @@
 extends TextureButton
 
 var upgrade : int
-var unlocked = false
-onready var Session = get_tree().root.get_node("Session")
-onready var Upgrades = get_node("../../")
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-    pass # Replace with function body.
+onready var Session = get_tree().root.get_node("Session")
 
 func set_upgrade(upgrade):
-    self.upgrade = upgrade
-    
+	self.upgrade = upgrade
+	self.hint_tooltip = Session.get_upgrade_description(upgrade)
+	match Session.get_upgrade_status(upgrade):
+		0: # Unavailable
+			self.texture_normal = preload("res://images/tree_unavailable.png")
+		1: # Available
+			self.texture_normal = preload("res://images/tree_placeholder.png")
+		2: # Bought
+			self.texture_normal = preload("res://images/tree_unlocked.png")
+
 func get_upgrade():
-    return self.upgrade
-
-func set_unlocked(val):
-    unlocked = val
-    if (unlocked):
-        self.texture_normal = self.texture_pressed
-
-func unlock():
-    if (unlocked == false):
-        var ep = Session.get_ep()
-        if (Session.get_upgrade_cost(upgrade) <= ep):
-            unlocked = true
-            Session.buy_player_upgrade(upgrade)
-            #todo: change aspect
-            set_unlocked(true)
-            return true
-        else:
-            return false
-            
-    get_node("../../../../../../BotUI/Description").text = "Upgrade already owned!"
-    return true
+	return self.upgrade
 
 func _pressed():
-    var desc = Session.get_upgrade_description(upgrade)
-    get_node("../../../../../../BotUI/Description").text = desc
-    Upgrades.set_pending_upgrade(self)
+	Session.get_node("UpgradesMenu").set_selected_upgrade(upgrade)
