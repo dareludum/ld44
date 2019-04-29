@@ -58,6 +58,32 @@ var UPGRADE_COST: Dictionary = {
 	Upgrade.S110_SHORT_STUN: 10,
 }
 
+var UPGRADE_ICONS: Dictionary = {
+	Upgrade.W0_BIG: preload("res://icon.png"),
+	Upgrade.W00_BIG_SPEED_UP: preload("res://icon.png"),
+	Upgrade.W000_BIG_360: preload("res://icon.png"),
+	Upgrade.W01_BIG_INVINCIBLE: preload("res://icon.png"),
+	Upgrade.W010_BIG_PROJECTILE_SHIELD: preload("res://icon.png"),
+
+	Upgrade.W1_DUAL: preload("res://icon.png"),
+	Upgrade.W10_DUAL_CAN_MOVE: preload("res://icon.png"),
+	Upgrade.W100_DUAL_ROTATING: preload("res://icon.png"),
+	Upgrade.W11_DUAL_KILL_PROJECTILES: preload("res://icon.png"),
+	Upgrade.W110_DUAL_360: preload("res://icon.png"),
+
+	Upgrade.S0_SPEED: preload("res://icon.png"),
+	Upgrade.S00_SPRINT: preload("res://icon.png"),
+	Upgrade.S000_LONG_SPRINT: preload("res://icon.png"),
+	Upgrade.S01_BLINK: preload("res://icon.png"),
+	Upgrade.S010_DOUBLE_BLINK: preload("res://icon.png"),
+
+	Upgrade.S1_ARMOR: preload("res://icon.png"),
+	Upgrade.S10_BUBBLE: preload("res://icon.png"),
+	Upgrade.S100_DOUBLE_BUBBLE: preload("res://icon.png"),
+	Upgrade.S11_INVINCIBILITY_ON_HIT: preload("res://icon.png"),
+	Upgrade.S110_SHORT_STUN: preload("res://icon.png"),
+}
+
 var UPGRADE_DESCRIPTIONS : Dictionary = {
 	Upgrade.W0_BIG: "A huge sword to swing at your enemies",
 	Upgrade.W00_BIG_SPEED_UP: "Build up swinging speed by hitting enemies",
@@ -117,6 +143,9 @@ func get_upgrade_cost(upgrade):
 
 func get_upgrade_description(upgrade):
     return UPGRADE_DESCRIPTIONS[upgrade]
+
+func get_upgrade_icon(upgrade):
+	return UPGRADE_ICONS[upgrade]
 
 func _ready():
 	# Test upgrades
