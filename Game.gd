@@ -10,7 +10,7 @@ const FADEIN_INCREMENT: float = 0.05
 const Enemy = preload("res://Enemy.gd")
 
 onready var Session = get_tree().root.get_node("Session")
-onready var SFXEngine = Session.get_node("SoundEngine")
+onready var SFXEngine = preload("res://SoundEngine.gd").new()
 
 var spawn_timer: Timer = Timer.new()
 var fade_out_timer: Timer = Timer.new()
@@ -22,6 +22,7 @@ const enemy_scenes = [
 ]
 
 func _ready():
+	self.add_child(SFXEngine)
 	spawn_timer.wait_time = 1
 	assert(OK == spawn_timer.connect("timeout", self, "_on_spawn_timer_timeout"))
 	self.add_child(spawn_timer)

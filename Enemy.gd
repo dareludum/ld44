@@ -2,6 +2,8 @@ extends Area2D
 
 const Blade = preload("res://Blade.gd")
 
+var SFXEngine
+
 var player
 var spawn_area: Area2D
 var play_area: Area2D
@@ -20,6 +22,10 @@ func init(_player, _spawn_area, _play_area):
 	can_take_blade_exit = true
 
 func _ready():
+	# WAR: we need to use a global audio stream player since we wouldn't
+	# be able to play the death sound if the sound player belonged to the
+	# enemy
+	SFXEngine = get_tree().root.get_node("Session/Game/EnemySounds")
 	assert(OK == self.connect("area_entered", self, "on_area_entered"))
 	assert(OK == self.connect("area_exited", self, "on_area_exited"))
 
@@ -57,6 +63,7 @@ func on_area_exited(area: Area2D):
 
 func hit_player(player):
 	if is_instance_valid(spec):
+		SFXEngine.play_sfx(SFXEngine.SFX_TYPE.PLAYER_HIT)
 		spec.hit_player(self, player)
 
 func _process(delta):

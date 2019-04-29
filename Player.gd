@@ -19,7 +19,7 @@ const BLINK_COOLDOWN: float = 2.0
 var velocity: Vector2 = Vector2.ZERO
 
 onready var Session = get_tree().root.get_node("Session")
-onready var SFXEngine = Session.get_node("SoundEngine")
+onready var SFXEngine = preload("res://SoundEngine.gd").new()
 
 var blade: Blade
 var blade_left: Blade = null
@@ -66,6 +66,7 @@ func get_max_hp():
 	return self.max_hp
 
 func _ready():
+	self.add_child(SFXEngine)
 	self.max_hp = Session.player_max_hp
 	self.hp = self.max_hp
 	_apply_upgrades()
