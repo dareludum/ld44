@@ -23,7 +23,6 @@ margin_right = 1024.0
 margin_bottom = 600.0
 
 [node name="TopUI" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-editor/display_folded = true
 margin_right = 1024.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
@@ -37,7 +36,7 @@ size_flags_vertical = 5
 text = "Blabla UI there"
 align = 1
 
-[node name="Label6" type="Label" parent="MarginContainer/VBoxContainer/TopUI"]
+[node name="lbl_ep" type="Label" parent="MarginContainer/VBoxContainer/TopUI"]
 margin_left = 512.0
 margin_right = 1024.0
 margin_bottom = 50.0

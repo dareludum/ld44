@@ -7,3 +7,6 @@ func _ready():
 
 func _on_play_button_pressed():
 	emit_signal("play")
+
+func _process(_delta):
+	$MarginContainer/VBoxContainer/TopUI/lbl_ep.text = "EP: " + str(get_tree().root.get_node("Session:").get_ep())
