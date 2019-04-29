@@ -16,6 +16,7 @@ const SPRINT_TIME_MAX: float = 2.0
 const BLINK_DISTANCE: float = 100.0
 const BLINK_COOLDOWN: float = 2.0
 const INVINCIBILITY_ON_HIT_DURATION: float = 1.0
+const SHORT_STUN_COEFFICIENT: float = 0.5
 
 var velocity: Vector2 = Vector2.ZERO
 
@@ -47,6 +48,7 @@ var has_armor: bool = false
 var is_invincible_on_hit: bool = false
 var is_invincible: bool = false
 var invincibility_timer: Timer = Timer.new()
+var short_stun: bool = false
 
 var max_hp: int  # 2 HP == 1 heart
 var hp: int setget set_hp, get_hp
@@ -180,6 +182,8 @@ func _apply_upgrades():
 			has_bubble = true
 		elif upgrades.has(Upgrade.S11_INVINCIBILITY_ON_HIT):
 			self.is_invincible_on_hit = true
+			if upgrades.has(Upgrade.S110_SHORT_STUN):
+				self.short_stun = true
 
 	if not has_bubble:
 		$Bubble.hide()
@@ -269,6 +273,8 @@ func on_blade_swing_end():
 	_update_modifier_graphics()
 
 func stun(duration_ms):
+	if self.short_stun:
+		duration_ms *= SHORT_STUN_COEFFICIENT
 	# stun duration does not add up, but it's not clipped either (3s stun followed up by 1s stays at 3s)
 	if self.stun_timer.time_left > duration_ms / 1000:
 		return

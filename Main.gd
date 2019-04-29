@@ -22,6 +22,7 @@ enum Upgrade {
 	S1_ARMOR,
 	S10_BUBBLE,
 	S11_INVINCIBILITY_ON_HIT,
+	S110_SHORT_STUN,
 	U0_TODO,
 	U1_TODO,
 }
@@ -76,6 +77,7 @@ var UPGRADE_DESCRIPTIONS : Dictionary = {
 	Upgrade.S1_ARMOR: "Take 1 less damage from hits that deal more than 1 damage",
 	Upgrade.S10_BUBBLE: "A protective bubble that shields from some ranged attacks",
 	Upgrade.S11_INVINCIBILITY_ON_HIT: "Temporarily become invincible after being hit",
+	Upgrade.S110_SHORT_STUN: "Reduced stun duration",
 }
 
 const PLAYER_BASE_MAX_HP: int = 1
@@ -135,6 +137,7 @@ func _ready():
 	# self.player_upgrades[Upgrade.S1_ARMOR] = true
 	# self.player_upgrades[Upgrade.S10_BUBBLE] = true
 	# self.player_upgrades[Upgrade.S11_INVINCIBILITY_ON_HIT] = true
+	# self.player_upgrades[Upgrade.S110_SHORT_STUN] = true
 	start_new_game()
 
 func start_new_game():
