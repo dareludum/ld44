@@ -50,7 +50,6 @@ func on_area_exited(area: Area2D):
 	if area is Blade:
 		var blade = area
 		if blade.engaged and can_take_blade_exit and is_instance_valid(spec):
-			SFXEngine.play_sfx(SFXEngine.SFX_TYPE.ENEMY_DEATH)
 			spec.get_hit(self)
 		# this is the "reset" referenced in on_area_entered 
 		can_take_blade_exit = true

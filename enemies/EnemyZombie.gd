@@ -12,4 +12,5 @@ func hit_player(this, player):
 	this.queue_free()
 
 func get_hit(this):
+	this.SFXEngine.play_sfx(this.SFXEngine.SFX_TYPE.ENEMY_DEATH)
 	this.queue_free()
