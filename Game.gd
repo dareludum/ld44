@@ -31,6 +31,7 @@ func _ready():
 	fade_out_timer.wait_time = FADEOUT_INTERVAL
 	assert(OK == fade_out_timer.connect("timeout", self, "_on_fade_out_timer_timeout"))
 	self.add_child(fade_out_timer)
+	assert(OK == $Player.connect("hit", self, "_on_player_hit"))
 	assert(OK == $Player.connect("died", self, "_on_player_died"))
 	assert(OK == $Player.connect("ep_add", self, "_on_ep_add"))
 
@@ -53,9 +54,15 @@ func _on_fade_out_timer_timeout():
 	if $BlackScreen.modulate.a >= FADEOUT_UNTIL:
 		emit_signal("gameover")
 
+func _on_player_hit(value: int):
+	var info = preload("res://scenes/ScrollingUpdateText.tscn").instance()
+	info.set_value("-" + str(value) + " HP", Color.red)
+	info.rect_position = $Player.position + Vector2(20, -40)
+	self.add_child(info)
+
 func _on_ep_add(value: int):
-	var info = preload("res://scenes/EvolutionPointsUp.tscn").instance()
-	info.set_value(value)
+	var info = preload("res://scenes/ScrollingUpdateText.tscn").instance()
+	info.set_value("+" + str(value) + " EP", Color.green)
 	info.rect_position = $Player.position + Vector2(20, -40)
 	self.add_child(info)
 

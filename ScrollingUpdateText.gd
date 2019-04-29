@@ -3,8 +3,9 @@ extends Control
 const SCROLL_SPEED: float = 50.0
 const SCROLL_TIME: float = 0.75
 
-func set_value(value: int):
-	$Value.text = "+" + str(value) + " EP"
+func set_value(text: String, color: Color):
+	$Text.add_color_override("font_color", color)
+	$Text.text = text
 
 func _ready():
 	var timer = Timer.new()

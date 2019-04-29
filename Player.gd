@@ -1,5 +1,6 @@
 extends Node2D
 
+signal hit
 signal died
 signal ep_add
 
@@ -51,7 +52,10 @@ func get_position():
 func set_hp(new):
 	if new < hp and self.is_swinging_blade and self.is_invincible_while_swinging:
 		return
+	var difference = new - hp
 	hp = int(max(0, new))
+	if difference < 0:
+		emit_signal("hit", -difference)
 	if hp == 0:
 		emit_signal("died")
 
