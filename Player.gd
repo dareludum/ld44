@@ -124,6 +124,9 @@ func on_area_entered(area: Area2D):
 func _process(delta):
 	if (not self.is_stunned) and (not self.is_swinging_blade or self.blade.can_move_while_swinging):
 		self.position += velocity * PLAYER_SPEED * delta
+		var vr = get_viewport_rect()
+		self.position.x = clamp(self.position.x, vr.position.x, vr.end.x)
+		self.position.y = clamp(self.position.y, vr.position.y, vr.end.y)
 
 	if self.blade_swing_speed_is_decaying:
 		self.blade_swing_speed_multiplier = clamp(self.blade_swing_speed_multiplier - BLADE_SWING_SPEED_MULTIPLIER_DECAY * delta, 1.0, 2.0)
