@@ -28,7 +28,8 @@ var is_invincible_while_swinging: bool = false
 var is_swinging_blade: bool = false
 var can_swing_blade: bool = true
 var blade_reset_timer: Timer = Timer.new()
-var stunned_until_ms: int = 0
+var stun_timer: Timer = Timer.new()
+var is_stunned: bool = false
 
 var max_hp: int  # 2 HP == 1 heart
 var hp: int setget set_hp, get_hp
@@ -63,6 +64,11 @@ func _ready():
 	self.blade_reset_timer.one_shot = true
 	assert(OK == self.blade_reset_timer.connect("timeout", self, "_on_blade_cooldown_timer"))
 	self.add_child(self.blade_reset_timer)
+
+	self.stun_timer.autostart = false
+	self.stun_timer.one_shot = true
+	assert(OK == self.stun_timer.connect("timeout", self, "_on_stun_timer"))
+	self.add_child(self.stun_timer)
 
 	assert(OK == $HeadHolder/Head.connect("area_entered", self, "on_area_entered"))
 
@@ -116,7 +122,7 @@ func on_area_entered(area: Area2D):
 		area.hit_player(self)
 
 func _process(delta):
-	if (not is_stunned()) and (not self.is_swinging_blade or self.blade.can_move_while_swinging):
+	if (not self.is_stunned) and (not self.is_swinging_blade or self.blade.can_move_while_swinging):
 		self.position += velocity * PLAYER_SPEED * delta
 
 	if self.blade_swing_speed_is_decaying:
@@ -150,7 +156,7 @@ func _swing_blade():
 	blade.engage()
 	SFXEngine.play_sfx(SFXEngine.SFX_TYPE.BLADE)
 	if self.is_invincible_while_swinging:
-		$HeadHolder/Head/HeadSprite.modulate = Color.gray
+		$HeadHolder/Head/HeadSprite.modulate = Color.skyblue
 
 func on_blade_swing_end():
 	self.is_swinging_blade = false
@@ -173,18 +179,24 @@ func on_blade_swing_end():
 		self.blade_swing_speed_decay_cooldown_timer.start(BLADE_SWING_SPEED_MULTIPLIER_DECAY_COOLDOWN)
 		emit_signal("ep_add", n * n)   # basic combo
 
-	if self.is_invincible_while_swinging:
+	if self.is_invincible_while_swinging and not self.is_stunned:
 		$HeadHolder/Head/HeadSprite.modulate = Color.white
 
 func stun(duration_ms):
 	# stun duration does not add up, but it's not clipped either (3s stun followed up by 1s stays at 3s)
-	stunned_until_ms = int(max(stunned_until_ms, OS.get_ticks_msec() + duration_ms))
+	if self.stun_timer.time_left > duration_ms / 1000:
+		return
+	self.stun_timer.stop()
+	self.stun_timer.start(duration_ms / 1000)
+	self.is_stunned = true
+	$HeadHolder/Head/HeadSprite.modulate = Color.darkgray
 
-func is_stunned():
-	return OS.get_ticks_msec() < stunned_until_ms
+func _on_stun_timer():
+	self.is_stunned = false
+	$HeadHolder/Head/HeadSprite.modulate = Color.white
 
 func _input(event):
-	if is_stunned():
+	if self.is_stunned:
 		return
 
 	if event is InputEventMouseMotion:
