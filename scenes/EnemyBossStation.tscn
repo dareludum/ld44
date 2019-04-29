@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Enemy.gd" type="Script" id=1]
+[ext_resource path="res://enemies/EnemyBossStation.gd" type="Script" id=2]
+[ext_resource path="res://images/tribase-u3-d0.png" type="Texture" id=3]
+[ext_resource path="res://images/tribase-u2-d0.png" type="Texture" id=4]
+[ext_resource path="res://images/tribase-u1-d0.png" type="Texture" id=5]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 90.1973
+height = 99.2995
+
+[node name="Enemy" type="Area2D"]
+collision_layer = 4
+collision_mask = 15
+script = ExtResource( 1 )
+
+[node name="Spec" type="Node2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="Stage0" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+
+[node name="Stage1" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 4 )
+
+[node name="Stage2" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D_A" type="CollisionShape2D" parent="."]
+position = Vector2( -78.323, -68.6873 )
+rotation = -0.872665
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D_B" type="CollisionShape2D" parent="."]
+position = Vector2( 102.71, -35.6926 )
+rotation = 1.22173
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D_C" type="CollisionShape2D" parent="."]
+position = Vector2( -18.4581, 101.608 )
+rotation = 3.31613
+shape = SubResource( 1 )
+

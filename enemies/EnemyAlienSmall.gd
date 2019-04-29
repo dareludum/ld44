@@ -6,6 +6,7 @@ const PREFERRED_DIST_HIGH = 400
 const SHOT_COOLDOWN_MS = 2000
 
 const Bullet = preload("res://scenes/BeamPink.tscn")
+onready var SFXEngine = get_tree().root.get_node("Session").get_node("SoundEngine")
 var next_shot_after = 0
 
 # `this` is the Enemy parent to this Spec
@@ -46,5 +47,7 @@ func process_shooting(this, player, _delta):
 func hit_player(_this, _player):
 	pass
 
-func _silence_unused_warnings():
-	print(ENEMY_SPEED)
+func get_hit(this):
+	SFXEngine.play_sfx(SFXEngine.SFX_TYPE.ENEMY_DEATH)
+	this.queue_free()
+
