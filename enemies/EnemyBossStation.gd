@@ -3,11 +3,15 @@ extends Node2D
 signal hp_changed
 signal died
 
-const ENEMY_SPEED = 300
+const ENEMY_SPEED = 100
 const PUSHBACK_DISTANCE = 120
+var rotation_speed = TAU / 6
 const MAX_HP = 60
+const PHASE_2_HP = 40
+const PHASE_3_HP = 20
 
 const Bullet = preload("res://scenes/BeamPink.tscn")
+onready var game = get_tree().root.get_node("Session/Game")
 
 var hp: int = MAX_HP setget set_hp, get_hp
 var phase: int = 0
@@ -19,6 +23,9 @@ const BULLET_MAJOR_COOLDOWN = 5
 var bullet_major: Timer = Timer.new()
 var bullet_minor: Timer = Timer.new()
 var bullets_spawned: int = 0  # reset every wave
+
+const ENEMY_WAVE_COOLDOWN = 10
+var enemy_wave_timer: Timer = Timer.new()
 
 onready var health_bar_holder = get_node("../HealthBarHolder")
 onready var health_bar = health_bar_holder.get_node("HealthBar")
@@ -45,6 +52,11 @@ func _ready():
 	assert(OK == bullet_minor.connect("timeout", self, "_on_bullet_minor"))
 	self.add_child(bullet_minor)
 
+	enemy_wave_timer.autostart = false
+	enemy_wave_timer.one_shot = false
+	assert(OK == enemy_wave_timer.connect("timeout", self, "_on_enemy_wave"))
+	self.add_child(enemy_wave_timer)
+
 	var this = get_node("..")
 	var p = this.get_node("BulletSpawnPos").position
 	bullet_angle = -p.angle_to(Vector2.RIGHT)
@@ -70,17 +82,24 @@ func enemy_process(_this, _player, _delta):
 	player = _player
 	delta = _delta
 
-	this.rotation_degrees += 30 * delta
+	this.rotation += rotation_speed * delta
 	health_bar_holder.rotation = -this.rotation
 
 	fun = fun.resume()
 
 func hit_player(this, player):
-	player.hp -= 2
+	if hp > 0:
+		player.hp -= 2
 	player.nudge((player.position - this.position).normalized() * PUSHBACK_DISTANCE)
 
 func get_hit(_this):
-	self.hp -= 1
+	# invulnerable until phase 1 starts and after it dies
+	if phase == 0 or hp == 0:
+		return
+
+	self.hp -= 10
+	if phase == 1:
+		game.spawn_enemy(preload("res://scenes/EnemyAlienSmall.tscn"))
 
 func _on_bullet_minor():
 	if not is_instance_valid(this):
@@ -99,8 +118,13 @@ func _on_bullet_minor():
 		bullet_minor.stop()
 
 func _on_bullet_major():
+	bullet_major.wait_time = BULLET_MAJOR_COOLDOWN
 	bullet_minor.start(BULLET_MINOR_COOLDOWN)
 	bullets_spawned = 0
+
+func _on_enemy_wave():
+	enemy_wave_timer.wait_time = ENEMY_WAVE_COOLDOWN
+	game.spawn_enemy(preload("res://scenes/EnemyZombieBig.tscn"))
 
 # returns false once the target is reached
 func move_towards(target: Vector2):
@@ -122,8 +146,49 @@ func coroutine():
 	while move_towards(middle):
 		yield()
 
+	#################### PHASE 1 ####################
 	phase = 1
-	bullet_major.start(BULLET_MAJOR_COOLDOWN)
+	bullet_major.start(2)
+
+	while hp > PHASE_2_HP:
+		yield()
+
+	this.get_node("Stage0").hide()
+	this.get_node("Stage1").show()
+	rotation_speed = -rotation_speed
+
+	#################### PHASE 2 ####################
+	phase = 2
+	var DX = 0.1
+	var DY = 0.15
+	var corner_idx = 0
+	var corners = [Vector2(DX, DY), Vector2(1 - DX, DY), Vector2(1 - DX, 1 - DY), Vector2(DX, 1 - DY)]
+	while hp > PHASE_3_HP:
+		var corner = corners[corner_idx]
+		corner_idx = (corner_idx + 1) % len(corners)
+		var target = Vector2(vr.position.x + vr.size.x * corner.x, vr.position.y + vr.size.y * corner.y)
+		while move_towards(target) and hp > PHASE_3_HP:
+			yield()
+
+	bullet_major.stop()
+	this.get_node("Stage1").hide()
+	this.get_node("Stage2").show()
+	rotation_speed = -rotation_speed
+
+	#################### PHASE 3 ####################
+	phase = 3
+	enemy_wave_timer.start(0.5)
+
+	while hp > 0:
+		var corner = corners[corner_idx]
+		corner_idx = (corner_idx + 1) % len(corners)
+		var target = Vector2(vr.position.x + vr.size.x * corner.x, vr.position.y + vr.size.y * corner.y)
+		while move_towards(target) and hp > 0:
+			yield()
+
+	enemy_wave_timer.stop()
+	emit_signal("died")
+	rotation_speed = 0
 
 	while true:
 		yield()

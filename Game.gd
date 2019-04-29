@@ -24,6 +24,8 @@ const enemy_scenes = [
 	preload("res://scenes/EnemyAlienSmall.tscn"),
 ]
 
+const boss_scene = preload("res://scenes/EnemyBossStation.tscn")
+
 func _ready():
 	self.add_child(SFXEngine)
 	spawn_timer.wait_time = 1
@@ -71,7 +73,10 @@ func _on_ep_add(value: int):
 	self.add_child(info)
 
 func _on_spawn_timer_timeout():
-	var enemy = enemy_scenes[randi() % enemy_scenes.size()].instance()
+	spawn_enemy(enemy_scenes[randi() % enemy_scenes.size()])
+
+func spawn_enemy(scene):
+	var enemy = scene.instance()
 	self.add_child(enemy)
 	enemy.init($Player, $SpawnArea, $FairPlayArea)
 	$EnemySpawnRect/SpawnLocation.offset = randi()
