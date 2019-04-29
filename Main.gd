@@ -9,16 +9,19 @@ enum Upgrade {
 	W000_BIG_360,
 	W01_BIG_INVINCIBLE,
 	W010_BIG_PROJECTILE_SHIELD,
+
 	W1_DUAL,
 	W10_DUAL_CAN_MOVE,
 	W100_DUAL_ROTATING,
 	W11_DUAL_KILL_PROJECTILES,
 	W110_DUAL_360,
+
 	S0_SPEED,
 	S00_SPRINT,
 	S000_LONG_SPRINT,
 	S01_BLINK,
 	S010_DOUBLE_BLINK,
+
 	S1_ARMOR,
 	S10_BUBBLE,
 	S100_DOUBLE_BUBBLE,
@@ -31,23 +34,28 @@ var UPGRADE_COST: Dictionary = {
 	Upgrade.SLOT_SURVIVAL: 10,
 
 	Upgrade.W0_BIG: 10,
+	Upgrade.W00_BIG_SPEED_UP: 10,
+	Upgrade.W000_BIG_360: 10,
+	Upgrade.W01_BIG_INVINCIBLE: 10,
+	Upgrade.W010_BIG_PROJECTILE_SHIELD: 10,
+
 	Upgrade.W1_DUAL: 10,
-    
-    Upgrade.W10_DUAL_CAN_MOVE: 10,
+	Upgrade.W10_DUAL_CAN_MOVE: 10,
 	Upgrade.W100_DUAL_ROTATING: 10,
 	Upgrade.W11_DUAL_KILL_PROJECTILES: 10,
 	Upgrade.W110_DUAL_360: 10,
 
 	Upgrade.S0_SPEED: 10,
+	Upgrade.S00_SPRINT: 10,
+	Upgrade.S000_LONG_SPRINT: 10,
+	Upgrade.S01_BLINK: 10,
+	Upgrade.S010_DOUBLE_BLINK: 10,
+
 	Upgrade.S1_ARMOR: 10,
-}
-
-var UPGRADE_SELL_PRICE: Dictionary = {
-	Upgrade.W0_BIG: 5,
-	Upgrade.W1_DUAL: 5,
-
-	Upgrade.S0_SPEED: 5,
-	Upgrade.S1_ARMOR: 5,
+	Upgrade.S10_BUBBLE: 10,
+	Upgrade.S100_DOUBLE_BUBBLE: 10,
+	Upgrade.S11_INVINCIBILITY_ON_HIT: 10,
+	Upgrade.S110_SHORT_STUN: 10,
 }
 
 var UPGRADE_DESCRIPTIONS : Dictionary = {
@@ -56,16 +64,19 @@ var UPGRADE_DESCRIPTIONS : Dictionary = {
 	Upgrade.W000_BIG_360: "Swing in a full circle",
 	Upgrade.W01_BIG_INVINCIBLE: "Become invincible while swinging",
 	Upgrade.W010_BIG_PROJECTILE_SHIELD: "Blade serves as a shield against projectiles when not swinging",
+
 	Upgrade.W1_DUAL: "Twice as many blades, for twice as many victims",
 	Upgrade.W10_DUAL_CAN_MOVE: "Move while swinging",
 	Upgrade.W100_DUAL_ROTATING: "Rotate your blades while swinging",
 	Upgrade.W11_DUAL_KILL_PROJECTILES: "Swing at projectiles to make them disappear",
 	Upgrade.W110_DUAL_360: "Swing your blades in a 360 fashion",
+
 	Upgrade.S0_SPEED: "Run 1.5 times faster",
 	Upgrade.S00_SPRINT: "Sprint by holding SHIFT",
 	Upgrade.S000_LONG_SPRINT: "Sprint for two timer longer",
 	Upgrade.S01_BLINK: "Blink by pressing SPACE",
 	Upgrade.S010_DOUBLE_BLINK: "Blink up to two times in a row",
+
 	Upgrade.S1_ARMOR: "Take 1 less damage from hits that deal more than 1 damage",
 	Upgrade.S10_BUBBLE: "A protective bubble that shields from some ranged attacks",
 	Upgrade.S100_DOUBLE_BUBBLE: "Have two bubbles to protect you",
@@ -99,14 +110,11 @@ func buy_player_upgrade(upgrade): # : type ?
 func sell_player_upgrade(upgrade): # : type?
 	assert(self.player_upgrades.erase(upgrade))
 	# TODO: erase the upgrade subtree
-	self.ep += get_sell_price(upgrade)
+	self.ep += get_upgrade_cost(upgrade) / 2
 
 func get_upgrade_cost(upgrade):
 	return UPGRADE_COST[upgrade]
 
-func get_sell_price(upgrade):
-	return UPGRADE_SELL_PRICE[upgrade]
-    
 func get_upgrade_description(upgrade):
     return UPGRADE_DESCRIPTIONS[upgrade]
 
