@@ -16,8 +16,12 @@ enum Upgrade {
 	W101_DUAL_ROTATING,
 	W11_DUAL_KILL_PROJECTILES,
 	W110_DUAL_360,
-	S0_TODO,
-	S1_TODO,
+	S0_SPEED,
+	S00_SPRINT,
+	S01_BLINK,
+	S1_ARMOR,
+	S10_BUBBLE,
+	S11_INVINCIBILITY,
 	U0_TODO,
 	U1_TODO,
 }
@@ -30,8 +34,8 @@ var UPGRADE_COST: Dictionary = {
 	Upgrade.W0_BIG: 10,
 	Upgrade.W1_DUAL: 10,
 
-	Upgrade.S0_TODO: 10,
-	Upgrade.S1_TODO: 10,
+	Upgrade.S0_SPEED: 10,
+	Upgrade.S1_ARMOR: 10,
 
 	Upgrade.U0_TODO: 10,
 	Upgrade.U1_TODO: 10,
@@ -41,8 +45,8 @@ var UPGRADE_SELL_PRICE: Dictionary = {
 	Upgrade.W0_BIG: 5,
 	Upgrade.W1_DUAL: 5,
 
-	Upgrade.S0_TODO: 5,
-	Upgrade.S1_TODO: 5,
+	Upgrade.S0_SPEED: 5,
+	Upgrade.S1_ARMOR: 5,
 
 	Upgrade.U0_TODO: 5,
 	Upgrade.U1_TODO: 5,
@@ -86,16 +90,18 @@ func _ready():
 	# Test upgrades
 	self.player_upgrades[Upgrade.SLOT_WEAPON] = true
 	self.player_upgrades[Upgrade.W0_BIG] = true
-	# self.player_upgrades[Upgrade.W00_BIG_SPEED_UP] = true
-	# self.player_upgrades[Upgrade.W000_BIG_360] = true
-	self.player_upgrades[Upgrade.W01_BIG_INVINCIBLE] = true
-	self.player_upgrades[Upgrade.W010_BIG_PROJECTILE_SHIELD] = true	
+	self.player_upgrades[Upgrade.W00_BIG_SPEED_UP] = true
+	self.player_upgrades[Upgrade.W000_BIG_360] = true
+	# self.player_upgrades[Upgrade.W01_BIG_INVINCIBLE] = true
+	# self.player_upgrades[Upgrade.W010_BIG_PROJECTILE_SHIELD] = true	
 	# self.player_upgrades[Upgrade.W1_DUAL] = true
 	# self.player_upgrades[Upgrade.W10_DUAL_CAN_MOVE] = true
 	# self.player_upgrades[Upgrade.W100_DUAL_FAST] = true
 	# self.player_upgrades[Upgrade.W101_DUAL_ROTATING] = true
 	# self.player_upgrades[Upgrade.W11_DUAL_KILL_PROJECTILES] = true
 	# self.player_upgrades[Upgrade.W110_DUAL_360] = true
+	self.player_upgrades[Upgrade.SLOT_SURVIVAL] = true
+	self.player_upgrades[Upgrade.S0_SPEED] = true
 	start_new_game()
 
 func start_new_game():

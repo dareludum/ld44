@@ -30,6 +30,7 @@ var can_swing_blade: bool = true
 var blade_reset_timer: Timer = Timer.new()
 var stun_timer: Timer = Timer.new()
 var is_stunned: bool = false
+var speed_multiplier: float = 1.0
 
 var max_hp: int  # 2 HP == 1 heart
 var hp: int setget set_hp, get_hp
@@ -117,13 +118,18 @@ func _apply_upgrades():
 		unneeded.hide()
 		unneeded.queue_free()
 
+	if upgrades.has(Upgrade.S0_SPEED):
+		self.speed_multiplier = 1.5
+	elif upgrades.has(Upgrade.S1_ARMOR):
+		pass
+
 func on_area_entered(area: Area2D):
 	if area is Enemy:
 		area.hit_player(self)
 
 func _process(delta):
 	if (not self.is_stunned) and (not self.is_swinging_blade or self.blade.can_move_while_swinging):
-		self.position += velocity * PLAYER_SPEED * delta
+		self.position += velocity * PLAYER_SPEED * speed_multiplier * delta
 		var vr = get_viewport_rect()
 		self.position.x = clamp(self.position.x, vr.position.x, vr.end.x)
 		self.position.y = clamp(self.position.y, vr.position.y, vr.end.y)
