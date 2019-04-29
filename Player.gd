@@ -42,6 +42,7 @@ var can_blink: bool = false
 var is_blinking: bool = false
 var is_blinking_cooldown_active: bool = false
 var blink_cooldown_timer: Timer = Timer.new()
+var has_armor: bool = false
 
 var max_hp: int  # 2 HP == 1 heart
 var hp: int setget set_hp, get_hp
@@ -53,6 +54,8 @@ func set_hp(new):
 	if new < hp and self.is_swinging_blade and self.is_invincible_while_swinging:
 		return
 	var difference = new - hp
+	if self.has_armor and difference < -1:
+		difference += 1
 	hp = int(max(0, new))
 	if difference < 0:
 		SFXEngine.play_sfx(SFXEngine.SFX_TYPE.PLAYER_HIT)
@@ -140,6 +143,7 @@ func _apply_upgrades():
 		unneeded.hide()
 		unneeded.queue_free()
 
+	var has_bubble: bool = false
 	if upgrades.has(Upgrade.S0_SPEED):
 		self.speed_multiplier = 1.5
 		if upgrades.has(Upgrade.S00_SPRINT):
@@ -147,7 +151,15 @@ func _apply_upgrades():
 		elif upgrades.has(Upgrade.S01_BLINK):
 			self.can_blink = true
 	elif upgrades.has(Upgrade.S1_ARMOR):
-		pass
+		self.has_armor = true
+		if upgrades.has(Upgrade.S10_BUBBLE):
+			has_bubble = true
+		elif upgrades.has(Upgrade.S11_INVINCIBILITY_ON_HIT):
+			pass
+
+	if not has_bubble:
+		$Bubble.hide()
+		$Bubble.queue_free()
 
 func on_area_entered(area: Area2D):
 	if area is Enemy:

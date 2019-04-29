@@ -21,7 +21,7 @@ enum Upgrade {
 	S01_BLINK,
 	S1_ARMOR,
 	S10_BUBBLE,
-	S11_INVINCIBILITY,
+	S11_INVINCIBILITY_ON_HIT,
 	U0_TODO,
 	U1_TODO,
 }
@@ -59,13 +59,23 @@ var UPGRADE_SELL_PRICE: Dictionary = {
 }
 
 var UPGRADE_DESCRIPTIONS : Dictionary = {
-    Upgrade.W0_BIG: "A huge sword to swing at your enemies",
-    Upgrade.W1_DUAL: "Twice as many blades, for twice as many victims",
-    Upgrade.W10_DUAL_CAN_MOVE: "Move while swinging",
+	Upgrade.W0_BIG: "A huge sword to swing at your enemies",
+	Upgrade.W00_BIG_SPEED_UP: "Build up swinging speed by hitting enemies",
+	Upgrade.W000_BIG_360: "Swing in a full circle",
+	Upgrade.W01_BIG_INVINCIBLE: "Become invincible while swinging",
+	Upgrade.W010_BIG_PROJECTILE_SHIELD: "Blade serves as a shield against projectiles when not swinging",
+	Upgrade.W1_DUAL: "Twice as many blades, for twice as many victims",
+	Upgrade.W10_DUAL_CAN_MOVE: "Move while swinging",
 	Upgrade.W100_DUAL_FAST: "Move faster and don't waste any time",
 	Upgrade.W101_DUAL_ROTATING: "Rotate your blades while swinging",
 	Upgrade.W11_DUAL_KILL_PROJECTILES: "Swing at projectiles to make them disappear",
 	Upgrade.W110_DUAL_360: "Swing your blades in a 360 fashion",
+	Upgrade.S0_SPEED: "Run 1.5 times faster",
+	Upgrade.S00_SPRINT: "Sprint by holding SHIFT",
+	Upgrade.S01_BLINK: "Blink by pressing SPACE",
+	Upgrade.S1_ARMOR: "Take 1 less damage from hits that deal more than 1 damage",
+	Upgrade.S10_BUBBLE: "A protective bubble that shields from some ranged attacks",
+	Upgrade.S11_INVINCIBILITY_ON_HIT: "Temporarily become invincible after being hit",
 }
 
 const PLAYER_BASE_MAX_HP: int = 1
@@ -122,6 +132,8 @@ func _ready():
 	# self.player_upgrades[Upgrade.SLOT_SURVIVAL] = true
 	# self.player_upgrades[Upgrade.S0_SPEED] = true
 	# self.player_upgrades[Upgrade.S01_BLINK] = true
+	# self.player_upgrades[Upgrade.S1_ARMOR] = true
+	# self.player_upgrades[Upgrade.S10_BUBBLE] = true	
 	start_new_game()
 
 func start_new_game():
