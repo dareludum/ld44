@@ -11,6 +11,7 @@ const PLAYER_SPEED: float = 150.0
 const BLADE_SWING_SPEED_MULTIPLIER_DELTA: float = 0.1
 const BLADE_SWING_SPEED_MULTIPLIER_DECAY: float = 0.33
 const BLADE_SWING_SPEED_MULTIPLIER_DECAY_COOLDOWN: float = 2.0
+const SPRINT_TIME_MAX: float = 2.0
 
 var velocity: Vector2 = Vector2.ZERO
 
@@ -31,6 +32,9 @@ var blade_reset_timer: Timer = Timer.new()
 var stun_timer: Timer = Timer.new()
 var is_stunned: bool = false
 var speed_multiplier: float = 1.0
+var sprint_multiplier: float = 1.0
+var sprint_seconds_left: float = SPRINT_TIME_MAX
+var is_sprinting: bool = false
 
 var max_hp: int  # 2 HP == 1 heart
 var hp: int setget set_hp, get_hp
@@ -120,6 +124,10 @@ func _apply_upgrades():
 
 	if upgrades.has(Upgrade.S0_SPEED):
 		self.speed_multiplier = 1.5
+		if upgrades.has(Upgrade.S00_SPRINT):
+			self.sprint_multiplier = 1.5
+		elif upgrades.has(Upgrade.S01_BLINK):
+			pass
 	elif upgrades.has(Upgrade.S1_ARMOR):
 		pass
 
@@ -129,7 +137,13 @@ func on_area_entered(area: Area2D):
 
 func _process(delta):
 	if (not self.is_stunned) and (not self.is_swinging_blade or self.blade.can_move_while_swinging):
-		self.position += velocity * PLAYER_SPEED * speed_multiplier * delta
+		var distance = velocity * PLAYER_SPEED * speed_multiplier * delta
+		if self.is_sprinting and self.sprint_seconds_left > 0.0:
+			self.sprint_seconds_left = max(0, self.sprint_seconds_left - delta)
+			distance *= self.sprint_multiplier
+		if not self.is_sprinting:
+			self.sprint_seconds_left = min(SPRINT_TIME_MAX, self.sprint_seconds_left + delta)
+		self.position += distance
 		var vr = get_viewport_rect()
 		self.position.x = clamp(self.position.x, vr.position.x, vr.end.x)
 		self.position.y = clamp(self.position.y, vr.position.y, vr.end.y)
@@ -218,13 +232,14 @@ func _input(event):
 		if event.button_index == BUTTON_LEFT and event.is_pressed():
 			self._swing_blade()
 	elif event is InputEventKey:
-		velocity = Vector2.ZERO
+		self.velocity = Vector2.ZERO
 		if Input.is_action_pressed("go_up"):
-			velocity.y -= 1
+			self.velocity.y -= 1
 		if Input.is_action_pressed("go_down"):
-			velocity.y += 1
+			self.velocity.y += 1
 		if Input.is_action_pressed("go_left"):
-			velocity.x -= 1
+			self.velocity.x -= 1
 		if Input.is_action_pressed("go_right"):
-			velocity.x += 1
-		velocity = velocity.normalized()
+			self.velocity.x += 1
+		self.velocity = self.velocity.normalized()
+		self.is_sprinting = Input.is_action_pressed("sprint")
