@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://fonts/ui_labels_font.tres" type="DynamicFont" id=1]
+
+[node name="Position2D" type="Position2D"]
+
+[node name="Node2D" type="Label" parent="."]
+margin_left = -200.0
+margin_top = -75.0
+margin_right = 200.0
+margin_bottom = 75.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0.937255, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "You defeated the boss and completed the game!
+
+Congratulations!
+
+Press the button to go back to the upgrade menu."
+
+[node name="Button" type="Button" parent="."]
+margin_left = -125.0
+margin_top = 75.0
+margin_right = 125.0
+margin_bottom = 107.0
+text = "GO BACK TO THE UPGRADE MENU"
+

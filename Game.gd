@@ -24,7 +24,7 @@ const enemy_scenes = [  # indices coupled with `progression`
 	preload("res://scenes/EnemyZombieBig.tscn"),
 ]
 
-const TARGET_PLAY_SESSION_DURATION_SECONDS = 3 * 60
+const TARGET_PLAY_SESSION_DURATION_SECONDS = 90
 
 const progression = [  # indices coupled with `enemy_scenes`
 	[0, 0, 0, 2, 2, 2, 0, 0, 0, 3, 3, 3, 3, 0, 0],  # shooter

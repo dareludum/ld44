@@ -203,5 +203,11 @@ func coroutine():
 	emit_signal("died")
 	rotation_speed = 0
 
+	var win = preload("res://scenes/WinScreen.tscn").instance()
+	game.add_child(win)
+	win.position = middle
+	var session = get_tree().root.get_node("Session")
+	win.find_node("Button").connect("button_down", session, "_on_gameover")
+
 	while true:
 		yield()
