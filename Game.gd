@@ -84,6 +84,10 @@ func _update_ui():
 		return
 	$lbl_hp.text = "HP: " + str($Player.hp)
 	$lbl_ep.text = "EP: " + str(Session.ep)
+	if $Player.sprint_multiplier > 1.0:
+		$lbl_extra.text = "Sprint: %.2fs" % $Player.sprint_seconds_left
+	elif $Player.blink_charges_max > 0:
+		$lbl_extra.text = "Blink charges: %d" % $Player.blink_charges
 
 func _process(_delta):
 	_update_ui()

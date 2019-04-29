@@ -48,11 +48,20 @@ text = "HP:100"
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 940.0
-margin_right = 1023.0
-margin_bottom = 34.0
+margin_top = 20.0
+margin_right = 83.0
+margin_bottom = 54.0
 custom_fonts/font = ExtResource( 3 )
 text = "EP:10000"
+
+[node name="lbl_extra" type="Label" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 40.0
+margin_right = 83.0
+margin_bottom = 74.0
+custom_fonts/font = ExtResource( 3 )
 
 [node name="Field" type="Sprite" parent="."]
 position = Vector2( 510, 300 )
