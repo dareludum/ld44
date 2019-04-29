@@ -6,9 +6,9 @@ signal died
 const ENEMY_SPEED = 100
 const PUSHBACK_DISTANCE = 120
 var rotation_speed = TAU / 6
-const MAX_HP = 60
-const PHASE_2_HP = 40
-const PHASE_3_HP = 20
+const MAX_HP = 45
+const PHASE_2_HP = 35
+const PHASE_3_HP = 15
 
 const Bullet = preload("res://scenes/BeamPink.tscn")
 onready var game = get_tree().root.get_node("Session/Game")
@@ -38,7 +38,7 @@ onready var health_bar = health_bar_holder.get_node("HealthBar")
 var bullet_distance
 var bullet_angle
 
-var fun  # the coroutine that orchestrates this boss's behavior
+var fun    # the coroutine that orchestrates this boss's behavior
 var this   # hack to pass args from enemy_process to the coroutine
 var player
 var delta
@@ -66,7 +66,7 @@ func _ready():
 	var this = get_node("..")
 	var p = this.get_node("BulletSpawnPos").position
 	bullet_angle = -p.angle_to(Vector2.RIGHT)
-	bullet_distance = p.length()  * this.scale.x
+	bullet_distance = p.length() * this.scale.x
 
 	fun = coroutine()
 
@@ -103,7 +103,7 @@ func get_hit(_this):
 	if phase == 0 or hp == 0:
 		return
 
-	self.hp -= 10
+	self.hp -= 1
 	if phase == 1:
 		game.spawn_enemy(preload("res://scenes/EnemyAlienSmall.tscn"))
 
