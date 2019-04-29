@@ -48,13 +48,13 @@ margin_bottom = 130.0
 custom_fonts/font = ExtResource( 3 )
 text = "Please select an upgrade"
 
-[node name="EP2" type="Label" parent="."]
+[node name="Note" type="Label" parent="."]
 margin_left = 10.0
 margin_top = 557.0
 margin_right = 857.0
 margin_bottom = 677.0
 custom_fonts/font = ExtResource( 3 )
-text = "NOTE: Every upgrade costs 10% of your max health for the next playthrough"
+text = "NOTE: Every purchased upgrade reduces your HP by 3 for the next playthrough"
 
 [node name="WeaponUpgrades" type="Sprite" parent="."]
 position = Vector2( 273.469, 323 )
