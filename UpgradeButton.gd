@@ -15,6 +15,11 @@ func set_upgrade(upgrade):
 func get_upgrade():
     return self.upgrade
 
+func set_unlocked(val):
+    unlocked = val
+    if (unlocked):
+        self.texture_normal = self.texture_pressed
+
 func unlock():
     if (unlocked == false):
         var ep = Session.get_ep()
@@ -22,7 +27,7 @@ func unlock():
             unlocked = true
             Session.buy_player_upgrade(upgrade)
             #todo: change aspect
-            self.texture_normal = self.texture_pressed
+            set_unlocked(true)
             return true
         else:
             return false

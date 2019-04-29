@@ -68,14 +68,14 @@ var UPGRADE_DESCRIPTIONS : Dictionary = {
 	Upgrade.W110_DUAL_360: "Swing your blades in a 360 fashion",
 }
 
-const PLAYER_BASE_MAX_HP: int = 6
+const PLAYER_BASE_MAX_HP: int = 1
 
 var game = null
 var upgrades = null
 
 var player_max_hp: int = PLAYER_BASE_MAX_HP
 var player_upgrades: Dictionary = {}
-var ep: int = 0
+var ep: int = 20
 
 func get_player_max_hp():
 	return self.player_max_hp
