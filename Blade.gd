@@ -10,6 +10,7 @@ export(bool) var shields_against_projectiles
 # load instead of preload to break a cyclical dependency between Blade and Enemy
 var Enemy = load("res://Enemy.gd")
 var Beam = load("res://BeamPink.gd")
+var EnemyBossStation = load("res://enemies/EnemyBossStation.gd")
 
 var _enemies_hit: Dictionary = {}
 var engaged: bool = false
@@ -57,14 +58,22 @@ func on_area_entered(area: Area2D):
 			area.hide()
 			area.queue_free()
 		return
-	if area is Enemy and not (area in _enemies_hit):
-		_enemies_hit[area] = true
+
+	maybe_hit_enemy(area)
+
 	if area is Beam and self.can_kill_projectiles:
 		area.hide()
 		area.queue_free()
 
 func on_area_exited(area: Area2D):
+	maybe_hit_enemy(area)
+
+func maybe_hit_enemy(area: Area2D):
 	if area is Enemy and not (area in _enemies_hit):
+		# quick and dirty hack: this should only count enemies that died
+		# but the boss is the only enemy that doesn't die from one hit
+		if area.get_node("Spec") is EnemyBossStation:
+			return
 		_enemies_hit[area] = true
 
 func update_multiplier(value: float):

@@ -80,7 +80,7 @@ var UPGRADE_DESCRIPTIONS : Dictionary = {
 	Upgrade.S110_SHORT_STUN: "Reduced stun duration",
 }
 
-const PLAYER_BASE_MAX_HP: int = 1
+const PLAYER_BASE_MAX_HP: int = 100
 
 var game = null
 var upgrades = null

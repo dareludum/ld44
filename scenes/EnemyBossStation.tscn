@@ -1,16 +1,18 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Enemy.gd" type="Script" id=1]
 [ext_resource path="res://enemies/EnemyBossStation.gd" type="Script" id=2]
 [ext_resource path="res://images/tribase-u3-d0.png" type="Texture" id=3]
 [ext_resource path="res://images/tribase-u2-d0.png" type="Texture" id=4]
 [ext_resource path="res://images/tribase-u1-d0.png" type="Texture" id=5]
+[ext_resource path="res://images/white32x32.png" type="Texture" id=6]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 90.1973
 height = 99.2995
 
 [node name="Enemy" type="Area2D"]
+scale = Vector2( 0.5, 0.5 )
 collision_layer = 4
 collision_mask = 15
 script = ExtResource( 1 )
@@ -30,17 +32,38 @@ visible = false
 texture = ExtResource( 5 )
 
 [node name="CollisionShape2D_A" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( -78.323, -68.6873 )
 rotation = -0.872665
 shape = SubResource( 1 )
 
 [node name="CollisionShape2D_B" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 102.71, -35.6926 )
 rotation = 1.22173
 shape = SubResource( 1 )
 
 [node name="CollisionShape2D_C" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( -18.4581, 101.608 )
 rotation = 3.31613
 shape = SubResource( 1 )
+
+[node name="HealthBarHolder" type="Position2D" parent="."]
+
+[node name="HealthBar" type="TextureProgress" parent="HealthBarHolder"]
+margin_left = -150.0
+margin_top = -180.0
+margin_right = 150.0
+margin_bottom = -148.0
+value = 90.0
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 6 )
+tint_under = Color( 0.25098, 0.25098, 0.25098, 1 )
+tint_progress = Color( 0.168627, 0.901961, 0.196078, 1 )
+nine_patch_stretch = true
+stretch_margin_left = 8
+stretch_margin_top = 8
+stretch_margin_right = 8
+stretch_margin_bottom = 8
 

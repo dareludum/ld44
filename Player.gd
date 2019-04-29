@@ -19,6 +19,7 @@ const INVINCIBILITY_ON_HIT_DURATION: float = 1.0
 const SHORT_STUN_COEFFICIENT: float = 0.5
 
 var velocity: Vector2 = Vector2.ZERO
+var drag: Vector2 = Vector2.ZERO
 
 onready var Session = get_tree().root.get_node("Session")
 onready var SFXEngine = preload("res://SoundEngine.gd").new()
@@ -206,6 +207,10 @@ func _process(delta):
 			self.blink_cooldown_timer.start(BLINK_COOLDOWN)
 			self.is_blinking = false
 			self.is_blinking_cooldown_active = true
+
+		var _drag = drag.clamped(5 * PLAYER_SPEED * delta)
+		drag -= _drag
+		distance += _drag
 		self.position += distance
 		var vr = get_viewport_rect()
 		self.position.x = clamp(self.position.x, vr.position.x, vr.end.x)
@@ -282,6 +287,7 @@ func stun(duration_ms):
 	self.stun_timer.start(duration_ms / 1000)
 	self.is_stunned = true
 	self.velocity = Vector2.ZERO
+	self.drag = Vector2.ZERO
 	_update_modifier_graphics()
 
 func _on_stun_timer():
@@ -299,6 +305,9 @@ func _on_stun_timer():
 	self.velocity = self.velocity.normalized()
 	self.is_sprinting = Input.is_action_pressed("sprint")
 	_update_modifier_graphics()
+
+func nudge(impact: Vector2):
+	self.drag += impact
 
 func _input(event):
 	if self.is_stunned:
