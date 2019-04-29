@@ -16,9 +16,12 @@ enum Upgrade {
 	W110_DUAL_360,
 	S0_SPEED,
 	S00_SPRINT,
+	S000_LONG_SPRINT,
 	S01_BLINK,
+	S010_DOUBLE_BLINK,
 	S1_ARMOR,
 	S10_BUBBLE,
+	S100_DOUBLE_BUBBLE,
 	S11_INVINCIBILITY_ON_HIT,
 	S110_SHORT_STUN,
 }
@@ -60,9 +63,12 @@ var UPGRADE_DESCRIPTIONS : Dictionary = {
 	Upgrade.W110_DUAL_360: "Swing your blades in a 360 fashion",
 	Upgrade.S0_SPEED: "Run 1.5 times faster",
 	Upgrade.S00_SPRINT: "Sprint by holding SHIFT",
+	Upgrade.S000_LONG_SPRINT: "Sprint for two timer longer",
 	Upgrade.S01_BLINK: "Blink by pressing SPACE",
+	Upgrade.S010_DOUBLE_BLINK: "Blink up to two times in a row",
 	Upgrade.S1_ARMOR: "Take 1 less damage from hits that deal more than 1 damage",
 	Upgrade.S10_BUBBLE: "A protective bubble that shields from some ranged attacks",
+	Upgrade.S100_DOUBLE_BUBBLE: "Have two bubbles to protect you",
 	Upgrade.S11_INVINCIBILITY_ON_HIT: "Temporarily become invincible after being hit",
 	Upgrade.S110_SHORT_STUN: "Reduced stun duration",
 }
@@ -117,8 +123,10 @@ func _ready():
 	# self.player_upgrades[Upgrade.W100_DUAL_ROTATING] = true
 	# self.player_upgrades[Upgrade.W11_DUAL_KILL_PROJECTILES] = true
 	# self.player_upgrades[Upgrade.W110_DUAL_360] = true
-	# self.player_upgrades[Upgrade.SLOT_SURVIVAL] = true
-	# self.player_upgrades[Upgrade.S0_SPEED] = true
+	self.player_upgrades[Upgrade.SLOT_SURVIVAL] = true
+	self.player_upgrades[Upgrade.S0_SPEED] = true
+	self.player_upgrades[Upgrade.S00_SPRINT] = true
+	self.player_upgrades[Upgrade.S000_LONG_SPRINT] = true
 	# self.player_upgrades[Upgrade.S01_BLINK] = true
 	# self.player_upgrades[Upgrade.S1_ARMOR] = true
 	# self.player_upgrades[Upgrade.S10_BUBBLE] = true

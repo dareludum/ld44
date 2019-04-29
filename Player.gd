@@ -12,7 +12,8 @@ const PLAYER_SPEED: float = 150.0
 const BLADE_SWING_SPEED_MULTIPLIER_DELTA: float = 0.1
 const BLADE_SWING_SPEED_MULTIPLIER_DECAY: float = 0.33
 const BLADE_SWING_SPEED_MULTIPLIER_DECAY_COOLDOWN: float = 2.0
-const SPRINT_TIME_MAX: float = 2.0
+const SPRINT_TIME_MAX: float = 1.0
+const LONG_SPRINT_TIME_MAX: float = 2.0
 const BLINK_DISTANCE: float = 100.0
 const BLINK_COOLDOWN: float = 2.0
 const INVINCIBILITY_ON_HIT_DURATION: float = 1.0
@@ -39,7 +40,8 @@ var stun_timer: Timer = Timer.new()
 var is_stunned: bool = false
 var speed_multiplier: float = 1.0
 var sprint_multiplier: float = 1.0
-var sprint_seconds_left: float = SPRINT_TIME_MAX
+var sprint_time_max: float = SPRINT_TIME_MAX
+var sprint_seconds_left: float = self.sprint_time_max
 var is_sprinting: bool = false
 var can_blink: bool = false
 var is_blinking: bool = false
@@ -172,6 +174,9 @@ func _apply_upgrades():
 		self.speed_multiplier = 1.5
 		if upgrades.has(Upgrade.S00_SPRINT):
 			self.sprint_multiplier = 1.5
+			if upgrades.has(Upgrade.S000_LONG_SPRINT):
+				self.sprint_time_max = LONG_SPRINT_TIME_MAX
+				self.sprint_seconds_left = self.sprint_time_max
 		elif upgrades.has(Upgrade.S01_BLINK):
 			self.can_blink = true
 	elif upgrades.has(Upgrade.S1_ARMOR):
@@ -198,7 +203,7 @@ func _process(delta):
 			self.sprint_seconds_left = max(0, self.sprint_seconds_left - delta)
 			distance *= self.sprint_multiplier
 		if not self.is_sprinting:
-			self.sprint_seconds_left = min(SPRINT_TIME_MAX, self.sprint_seconds_left + delta)
+			self.sprint_seconds_left = min(self.sprint_time_max, self.sprint_seconds_left + delta)
 		if self.is_blinking:
 			distance = velocity * BLINK_DISTANCE
 			self.blink_cooldown_timer.start(BLINK_COOLDOWN)
