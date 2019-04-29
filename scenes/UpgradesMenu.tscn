@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://UpgradesMenu.gd" type="Script" id=1]
 [ext_resource path="res://images/slots.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://SlotButton.gd" type="Script" id=5]
 [ext_resource path="res://images/field.png" type="Texture" id=6]
 [ext_resource path="res://fonts/default.tres" type="DynamicFont" id=7]
+[ext_resource path="res://BuyUpgrade.gd" type="Script" id=8]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -46,7 +47,6 @@ text = "Blabla UI there"
 align = 1
 
 [node name="MidUI" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-editor/display_folded = true
 margin_top = 54.0
 margin_right = 1024.0
 margin_bottom = 546.0
@@ -164,4 +164,19 @@ margin_top = 68.198
 margin_right = 520.0
 margin_bottom = 188.198
 custom_fonts/font = ExtResource( 7 )
+
+[node name="BuyButton" type="Button" parent="."]
+margin_left = 51.0052
+margin_top = 451.626
+margin_right = 102.005
+margin_bottom = 471.626
+text = "Buy"
+script = ExtResource( 8 )
+
+[node name="SellButton" type="Button" parent="."]
+margin_left = 121.425
+margin_top = 451.626
+margin_right = 172.425
+margin_bottom = 471.626
+text = "Sell"
 

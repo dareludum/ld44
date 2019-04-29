@@ -33,6 +33,12 @@ var UPGRADE_COST: Dictionary = {
 
 	Upgrade.W0_BIG: 10,
 	Upgrade.W1_DUAL: 10,
+    
+    Upgrade.W10_DUAL_CAN_MOVE: 10,
+	Upgrade.W100_DUAL_FAST: 10,
+	Upgrade.W101_DUAL_ROTATING: 10,
+	Upgrade.W11_DUAL_KILL_PROJECTILES: 10,
+	Upgrade.W110_DUAL_360: 10,
 
 	Upgrade.S0_SPEED: 10,
 	Upgrade.S1_ARMOR: 10,
@@ -50,6 +56,16 @@ var UPGRADE_SELL_PRICE: Dictionary = {
 
 	Upgrade.U0_TODO: 5,
 	Upgrade.U1_TODO: 5,
+}
+
+var UPGRADE_DESCRIPTIONS : Dictionary = {
+    Upgrade.W0_BIG: "A huge sword to swing at your enemies",
+    Upgrade.W1_DUAL: "Twice as many blades, for twice as many victims",
+    Upgrade.W10_DUAL_CAN_MOVE: "Move while swinging",
+	Upgrade.W100_DUAL_FAST: "Move faster and don't waste any time",
+	Upgrade.W101_DUAL_ROTATING: "Rotate your blades while swinging",
+	Upgrade.W11_DUAL_KILL_PROJECTILES: "Swing at projectiles to make them disappear",
+	Upgrade.W110_DUAL_360: "Swing your blades in a 360 fashion",
 }
 
 const PLAYER_BASE_MAX_HP: int = 6
@@ -85,6 +101,9 @@ func get_upgrade_cost(upgrade):
 
 func get_sell_price(upgrade):
 	return UPGRADE_SELL_PRICE[upgrade]
+    
+func get_upgrade_description(upgrade):
+    return UPGRADE_DESCRIPTIONS[upgrade]
 
 func _ready():
 	# Test upgrades
