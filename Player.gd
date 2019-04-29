@@ -55,6 +55,7 @@ func set_hp(new):
 	var difference = new - hp
 	hp = int(max(0, new))
 	if difference < 0:
+		SFXEngine.play_sfx(SFXEngine.SFX_TYPE.PLAYER_HIT)
 		emit_signal("hit", -difference)
 	if hp == 0:
 		emit_signal("died")
