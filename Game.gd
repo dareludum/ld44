@@ -123,12 +123,15 @@ func _on_progression_timeout():
 			spawners[enemy_idx].start(spawn_interval_for_level[level])
 
 func spawn_enemy(scene):
+	var player = $Player
+	if not is_instance_valid(player):
+		return
 	var enemy = scene.instance()
 	self.add_child(enemy)
-	enemy.init($Player, $SpawnArea, $FairPlayArea)
+	enemy.init(player, $SpawnArea, $FairPlayArea)
 	$EnemySpawnRect/SpawnLocation.offset = randi()
 	enemy.position = $EnemySpawnRect/SpawnLocation.position
-	enemy.look_at($Player.position)
+	enemy.look_at(player.position)
 
 func _update_ui():
 	if self.find_node("Player") == null:

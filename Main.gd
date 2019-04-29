@@ -33,29 +33,29 @@ enum UpgradeStatus {
 }
 
 var UPGRADE_COST: Dictionary = {
-	Upgrade.W0_BIG: 10,
-	Upgrade.W00_BIG_SPEED_UP: 10,
-	Upgrade.W000_BIG_360: 10,
-	Upgrade.W01_BIG_INVINCIBLE: 10,
-	Upgrade.W010_BIG_PROJECTILE_SHIELD: 10,
+	Upgrade.W0_BIG: 30,
+	Upgrade.W00_BIG_SPEED_UP: 50,
+	Upgrade.W000_BIG_360: 70,
+	Upgrade.W01_BIG_INVINCIBLE: 50,
+	Upgrade.W010_BIG_PROJECTILE_SHIELD: 70,
 
-	Upgrade.W1_DUAL: 10,
-	Upgrade.W10_DUAL_CAN_MOVE: 10,
-	Upgrade.W100_DUAL_ROTATING: 10,
-	Upgrade.W11_DUAL_KILL_PROJECTILES: 10,
-	Upgrade.W110_DUAL_360: 10,
+	Upgrade.W1_DUAL: 30,
+	Upgrade.W10_DUAL_CAN_MOVE: 50,
+	Upgrade.W100_DUAL_ROTATING: 70,
+	Upgrade.W11_DUAL_KILL_PROJECTILES: 50,
+	Upgrade.W110_DUAL_360: 70,
 
-	Upgrade.S0_SPEED: 10,
-	Upgrade.S00_SPRINT: 10,
-	Upgrade.S000_LONG_SPRINT: 10,
-	Upgrade.S01_BLINK: 10,
-	Upgrade.S010_DOUBLE_BLINK: 10,
+	Upgrade.S0_SPEED: 30,
+	Upgrade.S00_SPRINT: 50,
+	Upgrade.S000_LONG_SPRINT: 70,
+	Upgrade.S01_BLINK: 50,
+	Upgrade.S010_DOUBLE_BLINK: 70,
 
-	Upgrade.S1_ARMOR: 10,
-	Upgrade.S10_BUBBLE: 10,
-	Upgrade.S100_DOUBLE_BUBBLE: 10,
-	Upgrade.S11_INVINCIBILITY_ON_HIT: 10,
-	Upgrade.S110_SHORT_STUN: 10,
+	Upgrade.S1_ARMOR: 30,
+	Upgrade.S10_BUBBLE: 50,
+	Upgrade.S100_DOUBLE_BUBBLE: 70,
+	Upgrade.S11_INVINCIBILITY_ON_HIT: 50,
+	Upgrade.S110_SHORT_STUN: 70,
 }
 
 var UPGRADE_ICONS: Dictionary = {
