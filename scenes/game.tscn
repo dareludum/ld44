@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://images/black_screen.png" type="Texture" id=5]
 [ext_resource path="res://images/you_died.png" type="Texture" id=6]
 [ext_resource path="res://music/background.wav" type="AudioStream" id=7]
+[ext_resource path="res://SoundEngine.gd" type="Script" id=8]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -60,9 +61,10 @@ texture = ExtResource( 4 )
 
 [node name="BlackScreen" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 510, 300 )
+position = Vector2( 60, 80 )
 z_index = 100
 texture = ExtResource( 5 )
+offset = Vector2( 450, 220 )
 
 [node name="YouDied" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0 )
@@ -85,4 +87,7 @@ shape = SubResource( 3 )
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
 autoplay = true
+
+[node name="EnemySounds" type="AudioStreamPlayer" parent="."]
+script = ExtResource( 8 )
 
