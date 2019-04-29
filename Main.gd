@@ -107,10 +107,10 @@ func get_upgrade_description(upgrade):
 
 func _ready():
 	# Test upgrades
-	self.player_upgrades[Upgrade.SLOT_WEAPON] = true
-	self.player_upgrades[Upgrade.W0_BIG] = true
-	self.player_upgrades[Upgrade.W00_BIG_SPEED_UP] = true
-	self.player_upgrades[Upgrade.W000_BIG_360] = true
+	# self.player_upgrades[Upgrade.SLOT_WEAPON] = true
+	# self.player_upgrades[Upgrade.W0_BIG] = true
+	# self.player_upgrades[Upgrade.W00_BIG_SPEED_UP] = true
+	# self.player_upgrades[Upgrade.W000_BIG_360] = true
 	# self.player_upgrades[Upgrade.W01_BIG_INVINCIBLE] = true
 	# self.player_upgrades[Upgrade.W010_BIG_PROJECTILE_SHIELD] = true	
 	# self.player_upgrades[Upgrade.W1_DUAL] = true
@@ -119,9 +119,9 @@ func _ready():
 	# self.player_upgrades[Upgrade.W101_DUAL_ROTATING] = true
 	# self.player_upgrades[Upgrade.W11_DUAL_KILL_PROJECTILES] = true
 	# self.player_upgrades[Upgrade.W110_DUAL_360] = true
-	self.player_upgrades[Upgrade.SLOT_SURVIVAL] = true
-	self.player_upgrades[Upgrade.S0_SPEED] = true
-	self.player_upgrades[Upgrade.S01_BLINK] = true
+	# self.player_upgrades[Upgrade.SLOT_SURVIVAL] = true
+	# self.player_upgrades[Upgrade.S0_SPEED] = true
+	# self.player_upgrades[Upgrade.S01_BLINK] = true
 	start_new_game()
 
 func start_new_game():
