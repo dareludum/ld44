@@ -18,6 +18,9 @@ var fade_out_timer: Timer = Timer.new()
 const enemy_scenes = [
 	preload("res://scenes/EnemyStunner.tscn"),
 	preload("res://scenes/EnemyZombie.tscn"),
+	preload("res://scenes/EnemyZombieBig.tscn"),
+	preload("res://scenes/EnemyZombieSmall.tscn"),
+	preload("res://scenes/EnemyZombieNormal.tscn"),
 	preload("res://scenes/EnemyAlienSmall.tscn"),
 ]
 
