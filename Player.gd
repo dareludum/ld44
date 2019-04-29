@@ -169,7 +169,7 @@ func _apply_upgrades():
 		unneeded.hide()
 		unneeded.queue_free()
 
-	var has_bubble: bool = false
+	var num_bubbles = 0
 	if upgrades.has(Upgrade.S0_SPEED):
 		self.speed_multiplier = 1.5
 		if upgrades.has(Upgrade.S00_SPRINT):
@@ -182,15 +182,21 @@ func _apply_upgrades():
 	elif upgrades.has(Upgrade.S1_ARMOR):
 		self.has_armor = true
 		if upgrades.has(Upgrade.S10_BUBBLE):
-			has_bubble = true
+			num_bubbles += 1
+			if upgrades.has(Upgrade.S100_DOUBLE_BUBBLE):
+				num_bubbles += 1
 		elif upgrades.has(Upgrade.S11_INVINCIBILITY_ON_HIT):
 			self.is_invincible_on_hit = true
 			if upgrades.has(Upgrade.S110_SHORT_STUN):
 				self.short_stun = true
 
-	if not has_bubble:
-		$Bubble.hide()
-		$Bubble.queue_free()
+	print(num_bubbles)
+	if num_bubbles < 2:
+		$Bubble2.hide()
+		$Bubble2.queue_free()
+		if num_bubbles < 1:
+			$Bubble.hide()
+			$Bubble.queue_free()
 
 func on_area_entered(area: Area2D):
 	if area is Enemy:

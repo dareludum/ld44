@@ -77,3 +77,6 @@ swing_cooldown = 0.15
 [node name="Bubble" parent="." instance=ExtResource( 4 )]
 scale = Vector2( 0.3, 0.3 )
 
+[node name="Bubble2" parent="." instance=ExtResource( 4 )]
+scale = Vector2( 0.25, 0.25 )
+

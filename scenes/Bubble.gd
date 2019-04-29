@@ -2,7 +2,7 @@ extends Area2D
 
 const Beam = preload("res://BeamPink.gd")
 
-const COOLDOWN: float = 2.0
+const COOLDOWN: float = 4.0
 
 var cooldown_timer: Timer = Timer.new()
 var is_active: bool = true
