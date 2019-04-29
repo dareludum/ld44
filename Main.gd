@@ -102,7 +102,7 @@ func _ready():
 	# self.player_upgrades[Upgrade.W110_DUAL_360] = true
 	self.player_upgrades[Upgrade.SLOT_SURVIVAL] = true
 	self.player_upgrades[Upgrade.S0_SPEED] = true
-	self.player_upgrades[Upgrade.S00_SPRINT] = true
+	self.player_upgrades[Upgrade.S01_BLINK] = true
 	start_new_game()
 
 func start_new_game():

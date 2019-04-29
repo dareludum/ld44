@@ -12,6 +12,8 @@ const BLADE_SWING_SPEED_MULTIPLIER_DELTA: float = 0.1
 const BLADE_SWING_SPEED_MULTIPLIER_DECAY: float = 0.33
 const BLADE_SWING_SPEED_MULTIPLIER_DECAY_COOLDOWN: float = 2.0
 const SPRINT_TIME_MAX: float = 2.0
+const BLINK_DISTANCE: float = 100.0
+const BLINK_COOLDOWN: float = 2.0
 
 var velocity: Vector2 = Vector2.ZERO
 
@@ -35,6 +37,10 @@ var speed_multiplier: float = 1.0
 var sprint_multiplier: float = 1.0
 var sprint_seconds_left: float = SPRINT_TIME_MAX
 var is_sprinting: bool = false
+var can_blink: bool = false
+var is_blinking: bool = false
+var is_blinking_cooldown_active: bool = false
+var blink_cooldown_timer: Timer = Timer.new()
 
 var max_hp: int  # 2 HP == 1 heart
 var hp: int setget set_hp, get_hp
@@ -74,6 +80,11 @@ func _ready():
 	self.stun_timer.one_shot = true
 	assert(OK == self.stun_timer.connect("timeout", self, "_on_stun_timer"))
 	self.add_child(self.stun_timer)
+
+	self.blink_cooldown_timer.autostart = false
+	self.blink_cooldown_timer.one_shot = true
+	assert(OK == self.blink_cooldown_timer.connect("timeout", self, "_on_blink_cooldown_timer"))
+	self.add_child(self.blink_cooldown_timer)
 
 	assert(OK == $HeadHolder/Head.connect("area_entered", self, "on_area_entered"))
 
@@ -127,7 +138,7 @@ func _apply_upgrades():
 		if upgrades.has(Upgrade.S00_SPRINT):
 			self.sprint_multiplier = 1.5
 		elif upgrades.has(Upgrade.S01_BLINK):
-			pass
+			self.can_blink = true
 	elif upgrades.has(Upgrade.S1_ARMOR):
 		pass
 
@@ -143,6 +154,11 @@ func _process(delta):
 			distance *= self.sprint_multiplier
 		if not self.is_sprinting:
 			self.sprint_seconds_left = min(SPRINT_TIME_MAX, self.sprint_seconds_left + delta)
+		if self.is_blinking:
+			distance = velocity * BLINK_DISTANCE
+			self.blink_cooldown_timer.start(BLINK_COOLDOWN)
+			self.is_blinking = false
+			self.is_blinking_cooldown_active = true
 		self.position += distance
 		var vr = get_viewport_rect()
 		self.position.x = clamp(self.position.x, vr.position.x, vr.end.x)
@@ -167,6 +183,9 @@ func _on_blade_cooldown_timer():
 
 func _on_blade_swing_speed_decay_cooldown_timer():
 	self.blade_swing_speed_is_decaying = true
+
+func _on_blink_cooldown_timer():
+	self.is_blinking_cooldown_active = false
 
 func _swing_blade():
 	if not self.can_swing_blade:
@@ -243,3 +262,4 @@ func _input(event):
 			self.velocity.x += 1
 		self.velocity = self.velocity.normalized()
 		self.is_sprinting = Input.is_action_pressed("sprint")
+		self.is_blinking = Input.is_action_just_pressed("blink") and self.can_blink and not self.is_blinking_cooldown_active
